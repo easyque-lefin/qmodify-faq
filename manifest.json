@@ -1,10 +1,10 @@
 {
   "name": "Q-Mates",
-  "short_name": "Qmates",
-  "start_url": ".",
+  "short_name": "Q-Mates",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#0d4ea6",
   "icons": [
     {
       "src": "icon-192.png",
