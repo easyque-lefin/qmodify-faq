@@ -1,86 +1,1659 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyQue - Q&A Repository</title>
-    <style>
-        :root {
-            --primary-blue: #0047AB;
-            --bg-gray: #D3D3D3;
-            --accent-green: #00C853;
-            --header-purple: #E1BEE7;
-        }
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Q-Mates / Qknow (QModify FAQ Dashboard)</title>
+  <style>
+    :root {
+      --primary-blue: #0d4ea6;
+      --primary-blue-dark: #08397b;
+      --soft-blue: #eaf4ff;
+      --soft-bg: linear-gradient(135deg, #cfe8ff 0%, #eef7ff 55%, #d7ecff 100%);
+      --navy: #163c7a;
+      --accent-green: #10b981;
+      --accent-green-dark: #059669;
+      --accent-yellow: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-purple: #8b5cf6;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --border: rgba(12, 74, 110, 0.16);
+      --text: #1f2937;
+      --muted: #64748b;
+      --shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
 
-        body { font-family: Arial, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        header { background: var(--header-purple); padding: 15px; text-align: center; font-size: 28px; font-weight: bold; }
-        
-        .container { display: flex; flex: 1; overflow: hidden; }
+    * {
+      box-sizing: border-box;
+    }
 
-        .input-section { background: var(--primary-blue); color: white; width: 40%; padding: 30px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }
-        .input-section label { font-weight: bold; font-size: 16px; }
-        .input-section input, .input-section select, .input-section textarea {
-            width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 15px; box-sizing: border-box;
-        }
-        .input-section textarea { height: 200px; resize: none; }
-        
-        .save-btn { background: var(--accent-green); color: white; padding: 12px; border: none; border-radius: 25px; font-weight: bold; font-size: 18px; cursor: pointer; margin-top: 10px; }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--soft-bg);
+    }
 
-        .display-section { background: var(--bg-gray); width: 60%; padding: 30px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; box-sizing: border-box; }
-        .filter-row { display: flex; align-items: center; gap: 15px; }
-        .filter-row label { font-weight: bold; min-width: 100px; }
-        .filter-row select, .filter-row input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #999; }
+    body {
+      min-height: 100vh;
+    }
 
-        .faq-item { margin-bottom: 20px; border-bottom: 1px solid #bbb; padding-bottom: 15px; }
-        .question-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .question-link { color: #0047AB; cursor: pointer; text-decoration: underline; font-size: 18px; font-weight: 500; flex: 1; }
-        
-        .action-btns { display: flex; gap: 10px; font-size: 12px; font-weight: bold; margin-left: 10px; }
-        .btn-del { color: red; cursor: pointer; }
-        .btn-edit { color: black; cursor: pointer; }
+    .hidden {
+      display: none !important;
+    }
 
-        .answer-box { 
-            display: none; background: white; padding: 15px; margin-top: 10px; border-radius: 8px; 
-            border-left: 5px solid var(--primary-blue);
-            white-space: pre-wrap; 
-            line-height: 1.6; color: #333;
-        }
+    .app-shell {
+      min-height: 100vh;
+      width: 100%;
+    }
 
-        .footer-note { margin-top: auto; text-align: center; font-size: 14px; padding: 20px; }
-    </style>
+    /* ---------- LOGIN ---------- */
+    .login-screen {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      background: var(--soft-bg);
+    }
+
+    .bg-widget {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      padding: 14px 18px;
+      color: #475569;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-size: 14px;
+    }
+
+    .bg-widget.small {
+      width: 160px;
+      height: 72px;
+    }
+
+    .bg-widget.right-list {
+      width: 170px;
+      height: 88px;
+    }
+
+    .bg-widget.chart {
+      width: 160px;
+      height: 58px;
+    }
+
+    .widget-progress-bar,
+    .widget-progress-bar-2 {
+      height: 8px;
+      border-radius: 999px;
+      background: #dbeafe;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .widget-progress-bar::after {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 56%;
+      background: #22c55e;
+      border-radius: 999px;
+    }
+
+    .widget-progress-bar-2::after {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 72%;
+      background: #3b82f6;
+      border-radius: 999px;
+    }
+
+    .widget-list-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .widget-avatar {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #cbd5e1;
+    }
+
+    .widget-line {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: #d1d5db;
+    }
+
+    .widget-time {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 470px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 34px 34px 28px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .brand-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 30% 30%, #22d3ee, #2563eb 48%, #22c55e 82%);
+      color: white;
+      font-size: 30px;
+      font-weight: 700;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #0f2f66;
+      letter-spacing: 0.3px;
+    }
+
+    .login-title {
+      margin: 18px 0 6px;
+      font-size: 22px;
+      color: #111827;
+      font-weight: 700;
+    }
+
+    .login-subtitle {
+      margin: 0 0 26px;
+      color: #475569;
+      font-size: 15px;
+    }
+
+    .field-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .field-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input,
+    .input-wrap select,
+    .input-wrap textarea,
+    .date-range-wrap input,
+    .status-select {
+      width: 100%;
+      border-radius: 14px;
+      border: 2px solid #b6c8de;
+      background: #fff;
+      padding: 14px 14px 14px 16px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    .input-wrap input:focus,
+    .input-wrap select:focus,
+    .input-wrap textarea:focus,
+    .date-range-wrap input:focus,
+    .status-select:focus {
+      border-color: #4b8de8;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+
+    .login-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .remember-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    .remember-wrap input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary-blue);
+    }
+
+    .login-btn,
+    .secondary-btn,
+    .mini-btn,
+    .faq-save-btn,
+    .file-btn,
+    .status-action-btn,
+    .reply-btn,
+    .resolved-btn,
+    .add-member-btn,
+    .nav-tile,
+    .topbar-btn {
+      border: none;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-family: inherit;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #154ea4 0%, #0e3b86 100%);
+      color: #fff;
+      font-size: 21px;
+      font-weight: 700;
+      box-shadow: 0 12px 26px rgba(13, 78, 166, 0.25);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .helper-text,
+    .error-text,
+    .success-text {
+      font-size: 14px;
+      margin-top: 12px;
+      min-height: 20px;
+    }
+
+    .helper-text {
+      color: #475569;
+    }
+
+    .error-text {
+      color: #dc2626;
+      font-weight: 700;
+    }
+
+    .success-text {
+      color: #059669;
+      font-weight: 700;
+    }
+
+    .forgot-text {
+      font-size: 14px;
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-footer {
+      margin-top: 22px;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    /* ---------- COMMON PAGE ---------- */
+    .page {
+      min-height: 100vh;
+      width: 100%;
+      display: none;
+      padding: 24px;
+      background: var(--soft-bg);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-size: 54px;
+      margin: 0 0 20px;
+      color: #2f76c8;
+      letter-spacing: -1px;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    .frame-card {
+      background: rgba(219, 237, 255, 0.88);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .inner-white-board {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
+    /* ---------- DASHBOARD ---------- */
+    .dashboard-layout {
+      position: relative;
+      min-height: 760px;
+      padding: 10px;
+    }
+
+    .dashboard-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      flex-wrap: wrap;
+    }
+
+    .dashboard-topbar-left,
+    .dashboard-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand-inline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #163c7a;
+    }
+
+    .brand-inline .brand-logo {
+      width: 46px;
+      height: 46px;
+      font-size: 22px;
+    }
+
+    .topbar-btn {
+      padding: 12px 22px;
+      border-radius: 14px;
+      background: white;
+      color: #163c7a;
+      border: 2px solid rgba(22, 60, 122, 0.25);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .topbar-btn.primary {
+      background: linear-gradient(180deg, #174da2, #0f3b87);
+      color: white;
+      border-color: transparent;
+    }
+
+    .dashboard-main {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      min-height: 660px;
+    }
+
+    .dashboard-sidebar {
+      background: linear-gradient(180deg, #143a7f, #11336c);
+      padding: 18px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .side-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.09);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .side-icon.active {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .dashboard-content {
+      background: rgba(238, 247, 255, 0.7);
+      padding: 28px 26px 30px;
+      position: relative;
+    }
+
+    .welcome-text {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 24px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 18px;
+      max-width: 900px;
+    }
+
+    .nav-tile {
+      min-height: 150px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #1e3a8a;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .nav-tile:hover {
+      transform: translateY(-2px);
+    }
+
+    .tile-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 42px;
+      background: linear-gradient(180deg, #fff7cc, #ffe89d);
+      box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.18);
+    }
+
+    .dashboard-bottom-row {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr) 250px;
+      gap: 16px;
+      margin-top: 20px;
+      max-width: 1100px;
+      align-items: start;
+    }
+
+    .widget-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      min-height: 160px;
+    }
+
+    .widget-card h3 {
+      margin: 0 0 14px;
+      font-size: 16px;
+      color: #334155;
+    }
+
+    .event-item,
+    .activity-item {
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .event-item.blue {
+      background: linear-gradient(180deg, #2480ff, #1860d9);
+    }
+
+    .event-item.green {
+      background: linear-gradient(180deg, #34d399, #10b981);
+    }
+
+    .activity-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .activity-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #cbd5e1;
+    }
+
+    .activity-bar {
+      flex: 1;
+      height: 8px;
+      border-radius: 999px;
+      background: #dcfce7;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-bar::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 62%;
+      background: #22c55e;
+      border-radius: inherit;
+    }
+
+    .chat-box {
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .chat-header {
+      background: linear-gradient(180deg, #153f84, #0c3271);
+      color: white;
+      padding: 12px 14px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-body {
+      padding: 14px;
+      background: white;
+      flex: 1;
+    }
+
+    .chat-bubble {
+      max-width: 85%;
+      border-radius: 18px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .chat-bubble.left {
+      background: #f1f5f9;
+    }
+
+    .chat-bubble.right {
+      background: #dbeafe;
+      margin-left: auto;
+    }
+
+    .chat-input {
+      border-top: 1px solid #e2e8f0;
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      background: #fff;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      outline: none;
+    }
+
+    .chat-send {
+      width: 46px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(180deg, #2480ff, #1860d9);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .floating-widget {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      padding: 10px 12px;
+    }
+
+    .floating-widget.progress {
+      left: -80px;
+      top: 160px;
+      width: 170px;
+    }
+
+    .floating-widget.list {
+      right: -70px;
+      top: 170px;
+      width: 170px;
+    }
+
+    .floating-widget.chart {
+      right: 90px;
+      top: 330px;
+      width: 150px;
+    }
+
+    .floating-widget-bottom-left {
+      position: absolute;
+      left: 0;
+      bottom: -84px;
+      display: flex;
+      gap: 14px;
+    }
+
+    .sparkle {
+      position: fixed;
+      right: 30px;
+      bottom: 22px;
+      font-size: 68px;
+      color: rgba(255, 255, 255, 0.68);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ---------- SUPPORT PAGE ---------- */
+    .support-page-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      color: #1f4f97;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .support-page-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .support-main-card,
+    .support-members-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      overflow: hidden;
+    }
+
+    .support-main-inner {
+      padding: 18px;
+    }
+
+    .support-top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .support-left-actions,
+    .support-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .file-btn,
+    .mini-btn,
+    .secondary-btn,
+    .reply-btn,
+    .resolved-btn,
+    .add-member-btn,
+    .status-action-btn {
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .file-btn,
+    .secondary-btn,
+    .mini-btn {
+      background: white;
+      color: #163c7a;
+      border: 2px solid rgba(22, 60, 122, 0.18);
+    }
+
+    .file-btn.primary,
+    .secondary-btn.primary,
+    .add-member-btn.primary {
+      background: linear-gradient(180deg, #174da2, #0f3b87);
+      color: white;
+      border: none;
+    }
+
+    .secondary-btn.back-btn {
+      background: #eef6ff;
+    }
+
+    .date-range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: white;
+      border: 2px solid rgba(22, 60, 122, 0.18);
+      border-radius: 16px;
+      padding: 8px 12px;
+    }
+
+    .date-range-wrap label {
+      font-weight: 700;
+      color: #334155;
+      white-space: nowrap;
+    }
+
+    .date-range-wrap input {
+      width: auto;
+      min-width: 140px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border-width: 1px;
+    }
+
+    .support-table-wrap {
+      overflow: auto;
+      border-radius: 16px;
+      border: 1px solid #dbe7f5;
+      background: white;
+      max-height: 70vh;
+    }
+
+    .support-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1080px;
+    }
+
+    .support-table th,
+    .support-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #e6edf7;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    .support-table th {
+      background: #f8fbff;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #334155;
+      font-size: 15px;
+    }
+
+    .subject-cell {
+      max-width: 360px;
+      white-space: normal;
+      line-height: 1.45;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 118px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .tag-new {
+      background: #8b5cf6;
+    }
+
+    .tag-awaiting {
+      background: #f59e0b;
+    }
+
+    .tag-escalation {
+      background: #ef4444;
+    }
+
+    .tag-resolved {
+      background: #10b981;
+    }
+
+    .reply-btn {
+      background: #ffffff;
+      border: 2px solid rgba(22, 60, 122, 0.18);
+      color: #163c7a;
+    }
+
+    .resolved-btn {
+      background: #f0fdf4;
+      color: #166534;
+      border: 2px solid rgba(34, 197, 94, 0.18);
+    }
+
+    .status-select {
+      min-width: 165px;
+      padding: 10px 12px;
+    }
+
+    .support-members-card {
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 120px);
+      position: sticky;
+      top: 20px;
+    }
+
+    .support-members-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .support-members-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .members-list {
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .member-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5eef9;
+    }
+
+    .member-photo {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #dbeafe;
+      border: 2px solid #fff;
+      box-shadow: 0 6px 12px rgba(15, 23, 42, 0.1);
+      flex-shrink: 0;
+    }
+
+    .member-photo.fallback {
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #1d4ed8;
+      font-size: 18px;
+      background: linear-gradient(180deg, #dbeafe, #bfdbfe);
+    }
+
+    .member-meta {
+      min-width: 0;
+    }
+
+    .member-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .member-designation,
+    .member-empid {
+      font-size: 13px;
+      color: #475569;
+      word-break: break-word;
+    }
+
+    .support-footer {
+      margin-top: 14px;
+      text-align: center;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* ---------- FAQ PAGE ---------- */
+    .faq-header-bar {
+      background: #e1bee7;
+      padding: 18px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: #111827;
+      border-radius: 22px 22px 0 0;
+    }
+
+    .faq-page-wrap {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.65);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .faq-container {
+      display: flex;
+      min-height: calc(100vh - 220px);
+    }
+
+    .input-section {
+      background: var(--primary-blue);
+      color: white;
+      width: 40%;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input-section label {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .input-section input,
+    .input-section select,
+    .input-section textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+    }
+
+    .input-section textarea {
+      height: 200px;
+      resize: vertical;
+      min-height: 160px;
+    }
+
+    .faq-save-btn {
+      background: var(--accent-green);
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .display-section {
+      background: #d3d3d3;
+      width: 60%;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      overflow-y: auto;
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .filter-row label {
+      font-weight: bold;
+      min-width: 120px;
+    }
+
+    .filter-row select,
+    .filter-row input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #999;
+      min-width: 200px;
+    }
+
+    .faq-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #bbb;
+      padding-bottom: 15px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .question-link {
+      color: #0047ab;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 18px;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-del {
+      color: red;
+      cursor: pointer;
+    }
+
+    .btn-edit {
+      color: black;
+      cursor: pointer;
+    }
+
+    .answer-box {
+      display: none;
+      background: white;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border-left: 5px solid var(--primary-blue);
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .footer-note {
+      margin-top: auto;
+      text-align: center;
+      font-size: 14px;
+      padding: 20px;
+    }
+
+    /* ---------- MODAL ---------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.48);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 520px;
+      background: white;
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 18px 22px;
+      background: linear-gradient(180deg, #174da2, #0f3b87);
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .modal-body {
+      padding: 20px 22px 22px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .modal-message {
+      font-size: 14px;
+      color: #475569;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .preview-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .preview-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #dbeafe;
+      border: 2px solid #e2e8f0;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 1200px) {
+      .dashboard-bottom-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .chat-box {
+        grid-column: span 2;
+      }
+
+      .support-page-card {
+        grid-template-columns: 1fr;
+      }
+
+      .support-members-card {
+        position: static;
+        max-height: none;
+      }
+
+      .floating-widget.progress,
+      .floating-widget.list,
+      .floating-widget.chart,
+      .floating-widget-bottom-left {
+        display: none;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .dashboard-main {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-sidebar {
+        flex-direction: row;
+        justify-content: center;
+        padding: 14px;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+      }
+
+      .faq-container {
+        flex-direction: column;
+      }
+
+      .input-section,
+      .display-section {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .page {
+        padding: 14px;
+      }
+
+      .page-title {
+        font-size: 34px;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-bottom-row {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-box {
+        grid-column: auto;
+      }
+
+      .login-card {
+        padding: 24px 18px;
+      }
+
+      .brand h1 {
+        font-size: 24px;
+      }
+
+      .dashboard-content {
+        padding: 18px 14px 22px;
+      }
+
+      .question-header {
+        flex-direction: column;
+      }
+
+      .action-btns {
+        margin-left: 0;
+      }
+
+      .bg-widget,
+      .sparkle {
+        display: none;
+      }
+
+      .support-table {
+        min-width: 920px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="app-shell">
+    <!-- LOGIN SCREEN -->
+    <section id="loginScreen" class="login-screen">
+      <div class="bg-widget small" style="left: 22%; top: 26%;">
+        <div style="font-weight:700;">Progress <span style="float:right;color:#22c55e;">56%</span></div>
+        <div class="widget-progress-bar"></div>
+        <div class="widget-progress-bar-2"></div>
+      </div>
 
-<header>Qknow(Qmodify - FAQ Dashboard)</header>
+      <div class="bg-widget right-list" style="right: 19%; top: 28%;">
+        <div class="widget-list-row"><div class="widget-avatar"></div><div class="widget-line"></div><div class="widget-time">44m</div></div>
+        <div class="widget-list-row"><div class="widget-avatar"></div><div class="widget-line"></div><div class="widget-time">42m</div></div>
+      </div>
 
-<div class="container">
-    <div class="input-section">
-        <label>Enter the question</label>
-        <input type="text" id="qInput" placeholder="Type question here...">
+      <div class="bg-widget chart" style="left: 24%; bottom: 29%;">
+        <div style="font-size:28px;">📊</div>
+      </div>
 
-        <label>Type of Question</label>
-        <select id="typeInput">
-            <option>Related to App use</option>
-            <option>Related to App tech</option>
-            <option>Related to payments</option>
-            <option>Promotion & Marketing</option>
-            <option>Query & Complaints</option>
-            <option>Admin only</option>
-            <option>Related to app features</option>
-            <option>Common user queries</option>
-        </select>
+      <div class="bg-widget right-list" style="right: 20%; bottom: 31%;">
+        <div class="widget-list-row"><div class="widget-avatar"></div><div class="widget-line"></div><div class="widget-time">44m</div></div>
+        <div class="widget-list-row"><div class="widget-avatar"></div><div class="widget-line"></div><div class="widget-time">42m</div></div>
+      </div>
 
-        <label>Enter Answer</label>
-        <textarea id="aInput" placeholder="Enter solution with lines and spacing..."></textarea>
+      <div class="login-card">
+        <div class="brand">
+          <div class="brand-logo">Q</div>
+          <h1>Q-Mates</h1>
+        </div>
 
-        <button id="mainBtn" class="save-btn" onclick="handleSave()">Save</button>
-        <input type="hidden" id="editRowId">
-    </div>
+        <div class="login-title">Welcome to Q-Mates</div>
+        <p class="login-subtitle">Please login to access your QModify Dashboard</p>
 
-    <div class="display-section">
-        <div class="filter-row">
-            <label>Select Type</label>
-            <select id="typeFilter" onchange="fetchData()">
+        <form id="loginForm">
+          <div class="field-group">
+            <label for="loginEmail">Email Address</label>
+            <div class="input-wrap">
+              <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter email address"
+                autocomplete="username"
+              />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="loginPassword">Password</label>
+            <div class="input-wrap">
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter password"
+                autocomplete="current-password"
+              />
+            </div>
+          </div>
+
+          <div class="login-row">
+            <label class="remember-wrap">
+              <input type="checkbox" id="rememberMe" />
+              <span>Remember me</span>
+            </label>
+            <span class="forgot-text" onclick="showTemporaryMessage('loginMessage', 'Please use the provided login details.', 'helper')">Forgot Password?</span>
+          </div>
+
+          <button type="submit" class="login-btn">Login</button>
+          <div id="loginMessage" class="helper-text"></div>
+        </form>
+
+        <div class="login-footer">© 2026 QModify Inc.</div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD PAGE -->
+    <section id="dashboardPage" class="page">
+      <div class="page-inner">
+        <h2 class="page-title">Q-Mates (QModify Dashboard)</h2>
+
+        <div class="frame-card dashboard-layout">
+          <div class="inner-white-board">
+            <div class="dashboard-topbar">
+              <div class="dashboard-topbar-left">
+                <div class="brand-inline">
+                  <div class="brand-logo">Q</div>
+                  <span>Q-Mates</span>
+                </div>
+                <button class="topbar-btn" onclick="logoutUser()">Logout</button>
+              </div>
+
+              <div class="dashboard-topbar-right">
+                <button class="topbar-btn" onclick="showTemporaryMessage('dashboardMessage', 'Notifications wiring can be added next.', 'helper')">Notifications 🔔</button>
+                <button class="topbar-btn">User Profile 👤</button>
+              </div>
+            </div>
+
+            <div class="dashboard-main">
+              <aside class="dashboard-sidebar">
+                <div class="side-icon active">▦</div>
+                <div class="side-icon">💼</div>
+                <div class="side-icon">⚙️</div>
+                <div style="margin-top:auto;"></div>
+                <div class="side-icon" onclick="logoutUser()">↪</div>
+              </aside>
+
+              <main class="dashboard-content">
+                <div class="welcome-text" id="welcomeMessage">Welcome back!</div>
+
+                <div id="dashboardMessage" class="helper-text" style="margin-bottom: 10px;"></div>
+
+                <div class="dashboard-grid">
+                  <button class="nav-tile" onclick="goToFaqPage()">
+                    <div class="tile-icon">❓</div>
+                    <div>FAQ</div>
+                  </button>
+
+                  <button class="nav-tile" onclick="goToSupportPage()">
+                    <div class="tile-icon">🛡️</div>
+                    <div>Support Team</div>
+                  </button>
+
+                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'Sales Team will be wired later.', 'helper')">
+                    <div class="tile-icon">📈</div>
+                    <div>Sales Team</div>
+                  </button>
+
+                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'Marketing Team will be wired later.', 'helper')">
+                    <div class="tile-icon">📣</div>
+                    <div>Marketing Team</div>
+                  </button>
+
+                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'HR Team will be wired later.', 'helper')">
+                    <div class="tile-icon">🧑‍🤝‍🧑</div>
+                    <div>HR Team</div>
+                  </button>
+
+                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'IT Team will be wired later.', 'helper')">
+                    <div class="tile-icon">🖥️</div>
+                    <div>IT Team</div>
+                  </button>
+
+                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'Employee Login can be wired to another module later.', 'helper')">
+                    <div class="tile-icon">🪪</div>
+                    <div>Employee Login</div>
+                  </button>
+                </div>
+
+                <div class="dashboard-bottom-row">
+                  <div class="widget-card">
+                    <h3>Upcoming Events</h3>
+                    <div class="event-item blue">Mock Sunday<br><span style="font-weight:400;">Event line 1 • 6:00 am - 5:00 pm</span></div>
+                    <div class="event-item green">Mock Sunday<br><span style="font-weight:400;">Event line 2 • 7:00 am - 5:00 pm</span></div>
+                  </div>
+
+                  <div class="widget-card">
+                    <h3>Activity Feeds</h3>
+                    <div class="activity-line">
+                      <div class="activity-avatar"></div>
+                      <div style="flex:1;">
+                        <div style="font-size:14px;font-weight:700;">Feed line 1</div>
+                        <div class="activity-bar"></div>
+                      </div>
+                      <div style="font-size:12px;color:#64748b;">16 min</div>
+                    </div>
+                    <div class="activity-line">
+                      <div class="activity-avatar"></div>
+                      <div style="flex:1;">
+                        <div style="font-size:14px;font-weight:700;">Feed line 2</div>
+                        <div class="activity-bar"></div>
+                      </div>
+                      <div style="font-size:12px;color:#64748b;">21 min</div>
+                    </div>
+                  </div>
+
+                  <div class="widget-card chat-box">
+                    <div class="chat-header">
+                      <span>Chat</span>
+                      <span>– ×</span>
+                    </div>
+                    <div class="chat-body">
+                      <div class="chat-bubble left">Hello, how can we help you today?</div>
+                      <div class="chat-bubble right">Please check the FAQ or Support Team section.</div>
+                      <div class="chat-bubble left">A live chat integration can be added later.</div>
+                    </div>
+                    <div class="chat-input">
+                      <input type="text" placeholder="Type a message..." />
+                      <button class="chat-send">➤</button>
+                    </div>
+                  </div>
+                </div>
+              </main>
+            </div>
+          </div>
+
+          <div class="floating-widget progress">
+            <div style="font-weight:700;">Progress <span style="float:right;color:#22c55e;">50%</span></div>
+            <div class="widget-progress-bar"></div>
+            <div class="widget-progress-bar-2"></div>
+          </div>
+
+          <div class="floating-widget list">
+            <div class="widget-list-row"><div class="widget-avatar"></div><div class="widget-line"></div><div class="widget-time">44m</div></div>
+            <div class="widget-list-row"><div class="widget-avatar"></div><div class="widget-line"></div><div class="widget-time">42m</div></div>
+          </div>
+
+          <div class="floating-widget chart">
+            <div style="font-size:30px;text-align:center;">📊</div>
+          </div>
+
+          <div class="floating-widget-bottom-left">
+            <div class="bg-widget small">
+              <div style="font-weight:700;">Progress <span style="float:right;color:#22c55e;">63%</span></div>
+              <div class="widget-progress-bar"></div>
+              <div class="widget-progress-bar-2"></div>
+            </div>
+            <div class="bg-widget chart" style="position: static;">
+              <div style="font-size:28px;">📊</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT PAGE -->
+    <section id="supportPage" class="page">
+      <div class="page-inner">
+        <div class="support-page-title">
+          <div class="brand-logo" style="width:46px;height:46px;font-size:22px;">Q</div>
+          <span>Q-Mates Support Team</span>
+        </div>
+
+        <div class="support-page-card">
+          <div class="support-main-card">
+            <div class="support-main-inner">
+              <div class="support-top-actions">
+                <div class="support-left-actions">
+                  <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
+                  <button class="file-btn primary" onclick="requestCsvUpload()">Load Emails</button>
+                  <button class="mini-btn" onclick="clearLoadedEmails()">Clear Loaded Emails</button>
+                </div>
+
+                <div class="support-right-actions">
+                  <div class="date-range-wrap">
+                    <label>Date Range:</label>
+                    <input type="date" id="supportDateFrom" onchange="renderSupportEmails()" />
+                    <span>to</span>
+                    <input type="date" id="supportDateTo" onchange="renderSupportEmails()" />
+                  </div>
+                </div>
+              </div>
+
+              <div id="supportMessage" class="helper-text" style="margin-bottom:12px;"></div>
+
+              <div class="support-table-wrap">
+                <table class="support-table">
+                  <thead>
+                    <tr>
+                      <th>Date/Time Loaded</th>
+                      <th>Sender</th>
+                      <th>Name</th>
+                      <th>Subject</th>
+                      <th>Phone</th>
+                      <th>Org/User ID</th>
+                      <th>Status</th>
+                      <th>Reply</th>
+                      <th>Mark Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="supportTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <aside class="support-members-card">
+            <div class="support-members-header">
+              <div class="support-members-title">Support Team Members</div>
+              <button class="add-member-btn primary" onclick="requestAddMember()">Add Member</button>
+            </div>
+
+            <div class="members-list" id="membersList"></div>
+
+            <div class="support-footer">© 2026 QModify Inc. - Support Dashboard</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ PAGE -->
+    <section id="faqPage" class="page">
+      <div class="page-inner faq-page-wrap">
+        <div class="faq-header-bar">Qknow(Qmodify - FAQ Dashboard)</div>
+
+        <div class="faq-toolbar">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back to Dashboard</button>
+            <button class="secondary-btn" onclick="fetchData()">Refresh FAQ</button>
+          </div>
+          <div id="faqPageMessage" class="helper-text"></div>
+        </div>
+
+        <div class="faq-container">
+          <div class="input-section">
+            <label>Enter the question</label>
+            <input type="text" id="qInput" placeholder="Type question here..." />
+
+            <label>Type of Question</label>
+            <select id="typeInput">
+              <option>Related to App use</option>
+              <option>Related to App tech</option>
+              <option>Related to payments</option>
+              <option>Promotion & Marketing</option>
+              <option>Query & Complaints</option>
+              <option>Admin only</option>
+              <option>Related to app features</option>
+              <option>Common user queries</option>
+            </select>
+
+            <label>Enter Answer</label>
+            <textarea id="aInput" placeholder="Enter solution with lines and spacing..."></textarea>
+
+            <button id="mainBtn" class="faq-save-btn" onclick="handleSave()">Save</button>
+            <input type="hidden" id="editRowId" />
+          </div>
+
+          <div class="display-section">
+            <div class="filter-row">
+              <label>Select Type</label>
+              <select id="typeFilter" onchange="fetchData()">
                 <option value="">-- Choose Category --</option>
                 <option>Related to App use</option>
                 <option>Related to App tech</option>
@@ -90,122 +1663,902 @@
                 <option>Admin only</option>
                 <option>Related to app features</option>
                 <option>Common user queries</option>
+              </select>
+            </div>
+
+            <div class="filter-row">
+              <label>Search Question</label>
+              <input
+                type="text"
+                id="searchBar"
+                onkeyup="searchLocally()"
+                placeholder="Keywords..."
+              />
+            </div>
+
+            <div id="faqList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- HIDDEN FILE INPUTS -->
+  <input
+    type="file"
+    id="csvFileInput"
+    accept=".csv,text/csv"
+    class="hidden"
+  />
+  <input
+    type="file"
+    id="memberPhotoInput"
+    accept="image/*"
+    class="hidden"
+  />
+
+  <!-- ADD MEMBER MODAL -->
+  <div id="memberModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">Add Support Team Member</div>
+      <div class="modal-body">
+        <div class="modal-message">
+          Add name, designation, employee ID and photo. The member will appear in the right side team card.
+        </div>
+
+        <div class="field-group">
+          <label for="memberName">Name</label>
+          <div class="input-wrap">
+            <input type="text" id="memberName" placeholder="Enter full name" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="memberDesignation">Designation</label>
+          <div class="input-wrap">
+            <select id="memberDesignation">
+              <option value="">Select designation</option>
+              <option>Manager</option>
+              <option>Team Lead</option>
+              <option>Senior Agent</option>
+              <option>Support Agent</option>
+              <option>Junior Support Agent</option>
             </select>
-        </div>
-        <div class="filter-row">
-            <label>Search Question</label>
-            <input type="text" id="searchBar" onkeyup="searchLocally()" placeholder="Keywords...">
+          </div>
         </div>
 
-        <div id="faqList"></div>
+        <div class="field-group">
+          <label for="memberEmployeeId">Employee ID</label>
+          <div class="input-wrap">
+            <input type="text" id="memberEmployeeId" placeholder="Enter employee ID" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Photo</label>
+          <button type="button" class="file-btn" onclick="document.getElementById('memberPhotoInput').click()">Upload Photo</button>
+          <div class="preview-wrap">
+            <img id="memberPhotoPreview" class="preview-photo hidden" alt="Preview" />
+            <div id="memberPhotoName" class="helper-text">No file selected</div>
+          </div>
+        </div>
+
+        <div id="memberModalMessage" class="helper-text"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" onclick="closeMemberModal()">Cancel</button>
+          <button type="button" class="secondary-btn primary" onclick="submitNewMember()">Submit</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<script>
-    const API = "https://script.google.com/macros/s/AKfycbwiQg6_DRICn6w166CTuwyH-am8866ZgCBrELcqJu3Xx0ZiYupZOKCOY4qtRV_2yk7z/exec";
-    const PASS = "Godislove@22";
+  <script>
+    /* ---------------------------
+       CONFIG / CONSTANTS
+    --------------------------- */
+    const API =
+      "https://script.google.com/macros/s/AKfycbwiQg6_DRICn6w166CTuwyH-am8866ZgCBrELcqJu3Xx0ZiYupZOKCOY4qtRV_2yk7z/exec";
+    const ADMIN_PASS = "Godislove@22";
+
+    const LOGIN_EMAIL = "contact@qmodify.com";
+    const LOGIN_PASSWORD = "Myqmodify@123";
+
+    const STORAGE_KEYS = {
+      auth: "qmates_auth",
+      remember: "qmates_remember",
+      rememberedEmail: "qmates_remembered_email",
+      rememberedPassword: "qmates_remembered_password",
+      supportEmails: "qmates_support_emails",
+      supportMembers: "qmates_support_members"
+    };
+
+    const DESIGNATION_ORDER = {
+      "Manager": 1,
+      "Team Lead": 2,
+      "Senior Agent": 3,
+      "Support Agent": 4,
+      "Junior Support Agent": 5
+    };
+
     let masterData = [];
+    let memberPhotoDataUrl = "";
 
-    async function fetchData() {
-        const type = document.getElementById('typeFilter').value;
-        if (!type) return;
+    /* ---------------------------
+       DEFAULT SUPPORT MEMBERS
+    --------------------------- */
+    const defaultMembers = [
+      { name: "Manager", designation: "Manager", employeeId: "SUP-001", photo: "" },
+      { name: "Team Lead", designation: "Team Lead", employeeId: "SUP-002", photo: "" },
+      { name: "Senior Agent", designation: "Senior Agent", employeeId: "SUP-003", photo: "" },
+      { name: "Support Agent", designation: "Support Agent", employeeId: "SUP-004", photo: "" }
+    ];
 
-        if (type === "Admin only") {
-            if (prompt("Enter Admin Password:") !== PASS) {
-                alert("Access Restricted");
-                document.getElementById('typeFilter').value = "";
-                return;
-            }
+    /* ---------------------------
+       INIT
+    --------------------------- */
+    document.addEventListener("DOMContentLoaded", () => {
+      wireEventListeners();
+      ensureMemberSeedData();
+      hydrateRememberedLogin();
+      tryAutoLogin();
+    });
+
+    function wireEventListeners() {
+      document.getElementById("loginForm").addEventListener("submit", handleLogin);
+      document.getElementById("csvFileInput").addEventListener("change", handleCsvFileSelect);
+      document.getElementById("memberPhotoInput").addEventListener("change", handleMemberPhotoSelect);
+    }
+
+    function ensureMemberSeedData() {
+      const existing = getStoredArray(STORAGE_KEYS.supportMembers);
+      if (!existing.length) {
+        localStorage.setItem(STORAGE_KEYS.supportMembers, JSON.stringify(defaultMembers));
+      }
+    }
+
+    function hydrateRememberedLogin() {
+      const remember = localStorage.getItem(STORAGE_KEYS.remember) === "true";
+      const email = localStorage.getItem(STORAGE_KEYS.rememberedEmail) || "";
+      const password = localStorage.getItem(STORAGE_KEYS.rememberedPassword) || "";
+
+      document.getElementById("rememberMe").checked = remember;
+      if (remember) {
+        document.getElementById("loginEmail").value = email;
+        document.getElementById("loginPassword").value = password;
+      }
+    }
+
+    function tryAutoLogin() {
+      const auth = localStorage.getItem(STORAGE_KEYS.auth) === "true";
+      if (auth) {
+        showPage("dashboardPage");
+        afterLoginSuccess();
+      } else {
+        showLoginScreen();
+      }
+    }
+
+    /* ---------------------------
+       PAGE NAVIGATION
+    --------------------------- */
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach((page) => {
+        page.classList.remove("active");
+      });
+      document.getElementById("loginScreen").classList.add("hidden");
+      const target = document.getElementById(pageId);
+      if (target) {
+        target.classList.add("active");
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showLoginScreen() {
+      document.querySelectorAll(".page").forEach((page) => {
+        page.classList.remove("active");
+      });
+      document.getElementById("loginScreen").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function goToDashboard() {
+      showPage("dashboardPage");
+      renderMembers();
+      renderSupportEmails();
+    }
+
+    function goToSupportPage() {
+      showPage("supportPage");
+      renderMembers();
+      renderSupportEmails();
+      initSupportDateRangeDefaults();
+    }
+
+    function goToFaqPage() {
+      showPage("faqPage");
+      showTemporaryMessage("faqPageMessage", "FAQ dashboard loaded.", "success");
+    }
+
+    /* ---------------------------
+       LOGIN
+    --------------------------- */
+    function handleLogin(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      const remember = document.getElementById("rememberMe").checked;
+
+      if (email === LOGIN_EMAIL && password === LOGIN_PASSWORD) {
+        localStorage.setItem(STORAGE_KEYS.auth, "true");
+
+        if (remember) {
+          localStorage.setItem(STORAGE_KEYS.remember, "true");
+          localStorage.setItem(STORAGE_KEYS.rememberedEmail, email);
+          localStorage.setItem(STORAGE_KEYS.rememberedPassword, password);
+        } else {
+          localStorage.removeItem(STORAGE_KEYS.remember);
+          localStorage.removeItem(STORAGE_KEYS.rememberedEmail);
+          localStorage.removeItem(STORAGE_KEYS.rememberedPassword);
         }
 
-        document.getElementById('faqList').innerHTML = "Loading...";
+        showPage("dashboardPage");
+        afterLoginSuccess();
+      } else {
+        showTemporaryMessage(
+          "loginMessage",
+          "Invalid login. Use contact@qmodify.com and Myqmodify@123",
+          "error"
+        );
+      }
+    }
+
+    function afterLoginSuccess() {
+      const welcomeName = "Employee Name";
+      document.getElementById("welcomeMessage").textContent =
+        `Welcome back, [${welcomeName}]!`;
+      renderMembers();
+      renderSupportEmails();
+      initSupportDateRangeDefaults();
+      showTemporaryMessage("dashboardMessage", "Login successful.", "success");
+    }
+
+    function logoutUser() {
+      localStorage.removeItem(STORAGE_KEYS.auth);
+      showLoginScreen();
+      showTemporaryMessage("loginMessage", "Logged out successfully.", "success");
+    }
+
+    /* ---------------------------
+       SUPPORT TEAM PAGE
+    --------------------------- */
+    function initSupportDateRangeDefaults() {
+      const emails = getStoredArray(STORAGE_KEYS.supportEmails);
+      const fromInput = document.getElementById("supportDateFrom");
+      const toInput = document.getElementById("supportDateTo");
+      if (!fromInput || !toInput) return;
+
+      if (!fromInput.value && !toInput.value && emails.length) {
+        const sorted = [...emails].sort((a, b) => new Date(a.loadedAtISO) - new Date(b.loadedAtISO));
+        fromInput.value = toInputDateValue(sorted[0].loadedAtISO);
+        toInput.value = toInputDateValue(sorted[sorted.length - 1].loadedAtISO);
+      }
+    }
+
+    function requestCsvUpload() {
+      const username = prompt("Enter user name to continue:");
+      if (username === null) return;
+
+      const password = prompt("Enter password to proceed:");
+      if (password === null) return;
+
+      if (password !== ADMIN_PASS) {
+        showTemporaryMessage("supportMessage", "Wrong password for loading emails.", "error");
+        return;
+      }
+
+      document.getElementById("csvFileInput").value = "";
+      document.getElementById("csvFileInput").click();
+    }
+
+    function handleCsvFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fileName = file.name.toLowerCase();
+      if (!fileName.endsWith(".csv")) {
+        showTemporaryMessage("supportMessage", "Please upload a valid .csv file.", "error");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
         try {
-            const res = await fetch(API);
-            masterData = await res.json();
-            searchLocally();
-        } catch (e) {
-            document.getElementById('faqList').innerHTML = "Error connecting to cloud.";
+          const text = e.target.result;
+          const parsed = parseCsv(text);
+          if (!parsed.length) {
+            showTemporaryMessage("supportMessage", "CSV file is empty or invalid.", "error");
+            return;
+          }
+
+          const mappedEmails = parsed.map((row, index) => mapCsvRowToSupportEmail(row, index));
+          const existing = getStoredArray(STORAGE_KEYS.supportEmails);
+          const merged = [...mappedEmails, ...existing];
+          localStorage.setItem(STORAGE_KEYS.supportEmails, JSON.stringify(merged));
+          initSupportDateRangeDefaults();
+          renderSupportEmails();
+          showTemporaryMessage(
+            "supportMessage",
+            `${mappedEmails.length} email record(s) loaded successfully.`,
+            "success"
+          );
+        } catch (error) {
+          console.error(error);
+          showTemporaryMessage(
+            "supportMessage",
+            "Unable to read this CSV. Please check the column format.",
+            "error"
+          );
         }
+      };
+      reader.readAsText(file);
+    }
+
+    function mapCsvRowToSupportEmail(row, index) {
+      const firstName = getValueByPossibleKeys(row, [
+        "First name",
+        "First Name",
+        "Firstname",
+        "first name"
+      ]);
+      const lastName = getValueByPossibleKeys(row, [
+        "Last name",
+        "Last Name",
+        "Lastname",
+        "last name"
+      ]);
+      const email = getValueByPossibleKeys(row, ["Email", "email"]);
+      const phone = getValueByPossibleKeys(row, ["Phone", "phone"]);
+      const query = getValueByPossibleKeys(row, [
+        "Write a Query/Issue",
+        "Write a Query / Issue",
+        "Query",
+        "Issue",
+        "Query/Issue",
+        "Write a query/issue"
+      ]);
+      const orgId = getValueByPossibleKeys(row, [
+        "Org_ID/User ID(optional)",
+        "Org_ID/User ID",
+        "Org_ID / User ID(optional)",
+        "Org_ID / User ID",
+        "Org ID/User ID(optional)",
+        "Org ID / User ID(optional)",
+        "Org_ID",
+        "User ID"
+      ]);
+      const submissionTime = getValueByPossibleKeys(row, [
+        "Submission time",
+        "Submission Time",
+        "submission time"
+      ]);
+
+      return {
+        id: createUniqueId("email"),
+        loadedAtISO: new Date().toISOString(),
+        loadedAtDisplay: formatDisplayDateTime(new Date()),
+        submissionTime: submissionTime || "",
+        sender: email || "N/A",
+        name: [firstName, lastName].filter(Boolean).join(" ").trim() || (firstName || "N/A"),
+        subject: query || "No subject provided",
+        phone: phone || "",
+        orgId: orgId || "",
+        status: "New"
+      };
+    }
+
+    function renderSupportEmails() {
+      const body = document.getElementById("supportTableBody");
+      if (!body) return;
+
+      const emails = getStoredArray(STORAGE_KEYS.supportEmails);
+      const fromDate = document.getElementById("supportDateFrom")?.value || "";
+      const toDate = document.getElementById("supportDateTo")?.value || "";
+
+      let filtered = [...emails];
+
+      if (fromDate) {
+        filtered = filtered.filter((item) => {
+          const itemDate = new Date(item.loadedAtISO);
+          return itemDate >= new Date(fromDate + "T00:00:00");
+        });
+      }
+
+      if (toDate) {
+        filtered = filtered.filter((item) => {
+          const itemDate = new Date(item.loadedAtISO);
+          return itemDate <= new Date(toDate + "T23:59:59");
+        });
+      }
+
+      filtered.sort((a, b) => new Date(b.loadedAtISO) - new Date(a.loadedAtISO));
+
+      if (!filtered.length) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align:center;color:#64748b;padding:24px;">
+              No email records found for the selected range.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      body.innerHTML = filtered
+        .map((item) => {
+          const tagClass = getStatusTagClass(item.status);
+          return `
+            <tr>
+              <td>
+                <div style="font-weight:700;">${escapeHtml(item.loadedAtDisplay)}</div>
+                ${item.submissionTime ? `<div style="font-size:12px;color:#64748b;">Submitted: ${escapeHtml(item.submissionTime)}</div>` : ""}
+              </td>
+              <td>${escapeHtml(item.sender)}</td>
+              <td>${escapeHtml(item.name)}</td>
+              <td class="subject-cell">${escapeHtml(item.subject)}</td>
+              <td>${escapeHtml(item.phone || "-")}</td>
+              <td>${escapeHtml(item.orgId || "-")}</td>
+              <td><span class="tag ${tagClass}">${escapeHtml(item.status)}</span></td>
+              <td>
+                <button class="reply-btn" onclick="replyToSupportEmail('${item.id}')">↩ Reply</button>
+              </td>
+              <td>
+                <select class="status-select" onchange="updateEmailStatus('${item.id}', this.value)">
+                  <option value="New" ${item.status === "New" ? "selected" : ""}>New</option>
+                  <option value="Awaiting Reply" ${item.status === "Awaiting Reply" ? "selected" : ""}>Awaiting Reply</option>
+                  <option value="Escalation" ${item.status === "Escalation" ? "selected" : ""}>Escalation</option>
+                  <option value="Resolved" ${item.status === "Resolved" ? "selected" : ""}>Resolved</option>
+                </select>
+              </td>
+            </tr>
+          `;
+        })
+        .join("");
+    }
+
+    function getStatusTagClass(status) {
+      switch (status) {
+        case "Awaiting Reply":
+          return "tag-awaiting";
+        case "Escalation":
+          return "tag-escalation";
+        case "Resolved":
+          return "tag-resolved";
+        case "New":
+        default:
+          return "tag-new";
+      }
+    }
+
+    function updateEmailStatus(id, newStatus) {
+      const emails = getStoredArray(STORAGE_KEYS.supportEmails);
+      const updated = emails.map((item) =>
+        item.id === id ? { ...item, status: newStatus } : item
+      );
+      localStorage.setItem(STORAGE_KEYS.supportEmails, JSON.stringify(updated));
+      renderSupportEmails();
+      showTemporaryMessage("supportMessage", `Status changed to ${newStatus}.`, "success");
+    }
+
+    function replyToSupportEmail(id) {
+      const emails = getStoredArray(STORAGE_KEYS.supportEmails);
+      const item = emails.find((email) => email.id === id);
+      if (!item) return;
+
+      const subject = `Re: ${item.subject}`;
+      const body = `Hello ${item.name || ""},\n\nThank you for contacting QModify Support.\n\nRegards,\nQModify Support Team`;
+
+      const mailto = `mailto:${encodeURIComponent(item.sender)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      showTemporaryMessage(
+        "supportMessage",
+        "Your device mail app has been asked to open. From address depends on the default mail account on that device.",
+        "helper"
+      );
+    }
+
+    function clearLoadedEmails() {
+      const confirmed = confirm("Do you want to clear all loaded support emails?");
+      if (!confirmed) return;
+      localStorage.removeItem(STORAGE_KEYS.supportEmails);
+      document.getElementById("supportDateFrom").value = "";
+      document.getElementById("supportDateTo").value = "";
+      renderSupportEmails();
+      showTemporaryMessage("supportMessage", "All loaded emails cleared.", "success");
+    }
+
+    /* ---------------------------
+       SUPPORT MEMBERS
+    --------------------------- */
+    function renderMembers() {
+      const container = document.getElementById("membersList");
+      if (!container) return;
+
+      const members = getStoredArray(STORAGE_KEYS.supportMembers).sort(sortMembersByDesignation);
+
+      if (!members.length) {
+        container.innerHTML = `
+          <div class="helper-text">No team members added yet.</div>
+        `;
+        return;
+      }
+
+      container.innerHTML = members
+        .map((member) => {
+          const initials = getInitials(member.name || "TM");
+          const photoHtml = member.photo
+            ? `<img class="member-photo" src="${member.photo}" alt="${escapeHtml(member.name)}" />`
+            : `<div class="member-photo fallback">${escapeHtml(initials)}</div>`;
+
+          return `
+            <div class="member-item">
+              ${photoHtml}
+              <div class="member-meta">
+                <div class="member-name">${escapeHtml(member.name)}</div>
+                <div class="member-designation">${escapeHtml(member.designation)}</div>
+                <div class="member-empid">Employee ID: ${escapeHtml(member.employeeId || "-")}</div>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function sortMembersByDesignation(a, b) {
+      const aOrder = DESIGNATION_ORDER[a.designation] || 99;
+      const bOrder = DESIGNATION_ORDER[b.designation] || 99;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return (a.name || "").localeCompare(b.name || "");
+    }
+
+    function requestAddMember() {
+      const password = prompt("Enter password to add a member:");
+      if (password === null) return;
+
+      if (password !== ADMIN_PASS) {
+        showTemporaryMessage("supportMessage", "Wrong password for adding a member.", "error");
+        return;
+      }
+
+      openMemberModal();
+    }
+
+    function openMemberModal() {
+      document.getElementById("memberModal").classList.add("active");
+      document.getElementById("memberName").value = "";
+      document.getElementById("memberDesignation").value = "";
+      document.getElementById("memberEmployeeId").value = "";
+      document.getElementById("memberPhotoInput").value = "";
+      document.getElementById("memberPhotoName").textContent = "No file selected";
+      document.getElementById("memberPhotoPreview").classList.add("hidden");
+      document.getElementById("memberPhotoPreview").src = "";
+      document.getElementById("memberModalMessage").textContent = "";
+      memberPhotoDataUrl = "";
+    }
+
+    function closeMemberModal() {
+      document.getElementById("memberModal").classList.remove("active");
+    }
+
+    function handleMemberPhotoSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        memberPhotoDataUrl = e.target.result;
+        const preview = document.getElementById("memberPhotoPreview");
+        preview.src = memberPhotoDataUrl;
+        preview.classList.remove("hidden");
+        document.getElementById("memberPhotoName").textContent = file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function submitNewMember() {
+      const name = document.getElementById("memberName").value.trim();
+      const designation = document.getElementById("memberDesignation").value.trim();
+      const employeeId = document.getElementById("memberEmployeeId").value.trim();
+
+      if (!name || !designation || !employeeId || !memberPhotoDataUrl) {
+        document.getElementById("memberModalMessage").textContent =
+          "Please fill all fields and upload a photo.";
+        document.getElementById("memberModalMessage").className = "error-text";
+        return;
+      }
+
+      const members = getStoredArray(STORAGE_KEYS.supportMembers);
+      members.push({
+        id: createUniqueId("member"),
+        name,
+        designation,
+        employeeId,
+        photo: memberPhotoDataUrl
+      });
+
+      localStorage.setItem(STORAGE_KEYS.supportMembers, JSON.stringify(members));
+      renderMembers();
+      closeMemberModal();
+      showTemporaryMessage("supportMessage", "Team member added successfully.", "success");
+    }
+
+    /* ---------------------------
+       FAQ ORIGINAL FEATURES
+    --------------------------- */
+    async function fetchData() {
+      const type = document.getElementById("typeFilter").value;
+      if (!type) {
+        document.getElementById("faqList").innerHTML =
+          '<div class="helper-text">Please choose a category.</div>';
+        return;
+      }
+
+      if (type === "Admin only") {
+        if (prompt("Enter Admin Password:") !== ADMIN_PASS) {
+          alert("Access Restricted");
+          document.getElementById("typeFilter").value = "";
+          return;
+        }
+      }
+
+      document.getElementById("faqList").innerHTML = "Loading...";
+      try {
+        const res = await fetch(API);
+        masterData = await res.json();
+        searchLocally();
+      } catch (e) {
+        document.getElementById("faqList").innerHTML = "Error connecting to cloud.";
+      }
     }
 
     function searchLocally() {
-        const type = document.getElementById('typeFilter').value;
-        const term = document.getElementById('searchBar').value.toLowerCase();
-        const filtered = masterData.filter(d => d.type === type && d.question.toLowerCase().includes(term));
-        
-        document.getElementById('faqList').innerHTML = filtered.map((item, i) => `
+      const type = document.getElementById("typeFilter").value;
+      const term = document.getElementById("searchBar").value.toLowerCase();
+
+      const filtered = masterData.filter((d) => {
+        const q = (d.question || "").toLowerCase();
+        return d.type === type && q.includes(term);
+      });
+
+      document.getElementById("faqList").innerHTML = filtered
+        .map(
+          (item, i) => `
             <div class="faq-item">
-                <div class="question-header">
-                    <span class="question-link" onclick="toggle(${i})">${i + 1}. ${item.question}</span>
-                    <div class="action-btns">
-                        <span class="btn-del" onclick="deleteItem(${item.rowId})">Delete</span>
-                        <span class="btn-edit" onclick="startEdit(${JSON.stringify(item).replace(/"/g, '&quot;')})">Edit</span>
-                    </div>
+              <div class="question-header">
+                <span class="question-link" onclick="toggle(${i})">${i + 1}. ${escapeHtml(item.question || "")}</span>
+                <div class="action-btns">
+                  <span class="btn-del" onclick="deleteItem(${item.rowId})">Delete</span>
+                  <span class="btn-edit" onclick='startEdit(${JSON.stringify(item).replace(/'/g, "\\'")})'>Edit</span>
                 </div>
-                <div id="ans-${i}" class="answer-box">${item.answer}</div>
+              </div>
+              <div id="ans-${i}" class="answer-box">${escapeHtml(item.answer || "")}</div>
             </div>
-        `).join('');
+          `
+        )
+        .join("");
+
+      if (!filtered.length) {
+        document.getElementById("faqList").innerHTML =
+          '<div class="helper-text">No matching FAQ items found.</div>';
+      }
     }
 
     function toggle(i) {
-        const el = document.getElementById(`ans-${i}`);
-        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+      const el = document.getElementById(`ans-${i}`);
+      if (!el) return;
+      el.style.display = el.style.display === "block" ? "none" : "block";
     }
 
     async function handleSave() {
-        const rowId = document.getElementById('editRowId').value;
-        const action = rowId ? "edit" : "save";
-        const body = new URLSearchParams({
-            action: action,
-            rowId: rowId,
-            type: document.getElementById('typeInput').value,
-            question: document.getElementById('qInput').value,
-            answer: document.getElementById('aInput').value
-        });
+      const rowId = document.getElementById("editRowId").value;
+      const action = rowId ? "edit" : "save";
 
-        document.getElementById('mainBtn').innerText = "Processing...";
-        await fetch(API, { method: 'POST', mode: 'no-cors', body: body });
-        
-        alert("Action completed successfully!");
-        resetForm();
-        fetchData();
+      const type = document.getElementById("typeInput").value;
+      const question = document.getElementById("qInput").value.trim();
+      const answer = document.getElementById("aInput").value.trim();
+
+      if (!question || !answer) {
+        alert("Please enter both question and answer.");
+        return;
+      }
+
+      const body = new URLSearchParams({
+        action: action,
+        rowId: rowId,
+        type: type,
+        question: question,
+        answer: answer
+      });
+
+      document.getElementById("mainBtn").innerText = "Processing...";
+      await fetch(API, { method: "POST", mode: "no-cors", body: body });
+
+      alert("Action completed successfully!");
+      resetForm();
+      fetchData();
     }
 
     async function deleteItem(rowId) {
-        if (prompt("Enter Admin Password to DELETE:") !== PASS) return alert("Wrong Password!");
-        if (!confirm("Confirm Delete?")) return;
+      if (prompt("Enter Admin Password to DELETE:") !== ADMIN_PASS) {
+        return alert("Wrong Password!");
+      }
+      if (!confirm("Confirm Delete?")) return;
 
-        // Use URLSearchParams to ensure Google Script reads parameters correctly
-        const params = new URLSearchParams();
-        params.append('action', 'delete');
-        params.append('rowId', rowId);
+      const params = new URLSearchParams();
+      params.append("action", "delete");
+      params.append("rowId", rowId);
 
-        await fetch(API, { method: 'POST', mode: 'no-cors', body: params });
-        alert("Deleted from Google Sheet!");
-        fetchData();
+      await fetch(API, { method: "POST", mode: "no-cors", body: params });
+      alert("Deleted from Google Sheet!");
+      fetchData();
     }
 
     function startEdit(item) {
-        if (prompt("Enter Admin Password to EDIT:") !== PASS) return alert("Wrong Password!");
-        
-        document.getElementById('typeInput').value = item.type;
-        document.getElementById('qInput').value = item.question;
-        document.getElementById('aInput').value = item.answer;
-        document.getElementById('editRowId').value = item.rowId;
-        document.getElementById('mainBtn').innerText = "Update Now";
-        document.getElementById('mainBtn').style.background = "#FF9800";
+      if (prompt("Enter Admin Password to EDIT:") !== ADMIN_PASS) {
+        return alert("Wrong Password!");
+      }
+
+      document.getElementById("typeInput").value = item.type;
+      document.getElementById("qInput").value = item.question;
+      document.getElementById("aInput").value = item.answer;
+      document.getElementById("editRowId").value = item.rowId;
+      document.getElementById("mainBtn").innerText = "Update Now";
+      document.getElementById("mainBtn").style.background = "#FF9800";
     }
 
     function resetForm() {
-        document.getElementById('qInput').value = "";
-        document.getElementById('aInput').value = "";
-        document.getElementById('editRowId').value = "";
-        document.getElementById('mainBtn').innerText = "Save";
-        document.getElementById('mainBtn').style.background = "var(--accent-green)";
+      document.getElementById("qInput").value = "";
+      document.getElementById("aInput").value = "";
+      document.getElementById("editRowId").value = "";
+      document.getElementById("mainBtn").innerText = "Save";
+      document.getElementById("mainBtn").style.background = "var(--accent-green)";
     }
-</script>
+
+    /* ---------------------------
+       HELPERS
+    --------------------------- */
+    function getStoredArray(key) {
+      try {
+        return JSON.parse(localStorage.getItem(key) || "[]");
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function createUniqueId(prefix) {
+      return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    }
+
+    function showTemporaryMessage(elementId, message, type = "helper") {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.textContent = message;
+
+      if (type === "error") {
+        el.className = "error-text";
+      } else if (type === "success") {
+        el.className = "success-text";
+      } else {
+        el.className = "helper-text";
+      }
+
+      setTimeout(() => {
+        if (el.textContent === message) {
+          el.textContent = "";
+          el.className = "helper-text";
+        }
+      }, 4500);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatDisplayDateTime(date) {
+      const d = new Date(date);
+      return d.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      });
+    }
+
+    function toInputDateValue(isoString) {
+      const d = new Date(isoString);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function getInitials(name) {
+      const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+      return parts.slice(0, 2).map((p) => p[0].toUpperCase()).join("") || "TM";
+    }
+
+    function getValueByPossibleKeys(row, keys) {
+      for (const key of keys) {
+        if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== "") {
+          return String(row[key]).trim();
+        }
+      }
+      return "";
+    }
+
+    /* ---------------------------
+       CSV PARSER
+    --------------------------- */
+    function parseCsv(text) {
+      const rows = [];
+      let current = "";
+      let row = [];
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === "," && !inQuotes) {
+          row.push(current);
+          current = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(current);
+          if (row.some((cell) => String(cell).trim() !== "")) {
+            rows.push(row);
+          }
+          row = [];
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      if (current.length || row.length) {
+        row.push(current);
+        if (row.some((cell) => String(cell).trim() !== "")) {
+          rows.push(row);
+        }
+      }
+
+      if (!rows.length) return [];
+
+      const headers = rows[0].map((h) => String(h).trim());
+      return rows.slice(1).map((cells) => {
+        const obj = {};
+        headers.forEach((header, index) => {
+          obj[header] = cells[index] !== undefined ? String(cells[index]).trim() : "";
+        });
+        return obj;
+      });
+    }
+  </script>
+
+  <div class="sparkle">✦</div>
 </body>
-
 </html>
-
-
