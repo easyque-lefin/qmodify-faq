@@ -985,6 +985,172 @@
       font-weight: 700;
     }
 
+
+        /* ---------- ORGANIZATION TREE ---------- */
+    .org-tree-page-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      padding: 24px;
+      overflow: auto;
+    }
+
+    .org-tree-wrap {
+      min-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .org-tree-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 24px;
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+
+    .org-tree-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 210px;
+      flex: 1;
+      position: relative;
+    }
+
+    .org-card {
+      width: 200px;
+      min-height: 110px;
+      background: #fff;
+      border-radius: 18px;
+      border: 2px solid #dbe7f5;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 14px 12px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .org-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .org-card-photo {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #dbeafe;
+      border: 3px solid #fff;
+      box-shadow: 0 6px 12px rgba(15, 23, 42, 0.12);
+      margin-bottom: 8px;
+    }
+
+    .org-card-photo.fallback {
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #1d4ed8;
+      background: linear-gradient(180deg, #dbeafe, #bfdbfe);
+    }
+
+    .org-card-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .org-card-subtitle {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .org-line-vertical {
+      width: 2px;
+      height: 28px;
+      background: #b7c6da;
+    }
+
+    .org-line-horizontal {
+      width: 100%;
+      max-width: 980px;
+      height: 2px;
+      background: #b7c6da;
+    }
+
+    .org-team-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .org-mini-card {
+      width: 180px;
+      min-height: 54px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #dbe7f5;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    .org-mini-photo {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #dbeafe;
+      flex-shrink: 0;
+    }
+
+    .org-mini-photo.fallback {
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: #1d4ed8;
+      background: linear-gradient(180deg, #dbeafe, #bfdbfe);
+    }
+
+    .org-mini-text {
+      min-width: 0;
+      text-align: left;
+    }
+
+    .org-mini-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .org-mini-role {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
     /* ---------- FAQ PAGE ---------- */
     .faq-header-bar {
       background: #e1bee7;
@@ -1700,6 +1866,7 @@
     </section>
 
 
+
 <!-- ORGANIZATION PAGE -->
 <section id="organizationPage" class="page">
   <div class="page-inner">
@@ -1708,75 +1875,12 @@
       <span>My Organization</span>
     </div>
 
-    <div class="support-main-card" style="padding:24px;">
-      <div style="margin-bottom:16px;">
+    <div class="org-tree-page-card">
+      <div style="margin-bottom:18px;">
         <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
       </div>
 
-      <div id="orgChartWrap" style="display:grid;gap:20px;">
-        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('founder')">
-          <div class="member-photo fallback" id="org-founder-photo">F</div>
-          <div class="member-meta">
-            <div class="member-name" id="org-founder-name">Founder & CEO</div>
-            <div class="member-designation" id="org-founder-designation">Click to edit</div>
-            <div class="member-empid" id="org-founder-department">Department: Leadership</div>
-          </div>
-        </div>
-
-        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('md')">
-          <div class="member-photo fallback" id="org-md-photo">M</div>
-          <div class="member-meta">
-            <div class="member-name" id="org-md-name">Managing Director</div>
-            <div class="member-designation" id="org-md-designation">Click to edit</div>
-            <div class="member-empid" id="org-md-department">Department: Leadership</div>
-          </div>
-        </div>
-
-        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('sales_head')">
-          <div class="member-photo fallback" id="org-sales_head-photo">S</div>
-          <div class="member-meta">
-            <div class="member-name" id="org-sales_head-name">Sales Head</div>
-            <div class="member-designation" id="org-sales_head-designation">Click to edit</div>
-            <div class="member-empid" id="org-sales_head-department">Department: Sales</div>
-          </div>
-        </div>
-
-        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('support_head')">
-          <div class="member-photo fallback" id="org-support_head-photo">S</div>
-          <div class="member-meta">
-            <div class="member-name" id="org-support_head-name">Support Head</div>
-            <div class="member-designation" id="org-support_head-designation">Click to edit</div>
-            <div class="member-empid" id="org-support_head-department">Department: Support</div>
-          </div>
-        </div>
-
-        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('hr_head')">
-          <div class="member-photo fallback" id="org-hr_head-photo">H</div>
-          <div class="member-meta">
-            <div class="member-name" id="org-hr_head-name">HR Head</div>
-            <div class="member-designation" id="org-hr_head-designation">Click to edit</div>
-            <div class="member-empid" id="org-hr_head-department">Department: HR</div>
-          </div>
-        </div>
-
-        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('it_head')">
-          <div class="member-photo fallback" id="org-it_head-photo">I</div>
-          <div class="member-meta">
-            <div class="member-name" id="org-it_head-name">IT Head</div>
-            <div class="member-designation" id="org-it_head-designation">Click to edit</div>
-            <div class="member-empid" id="org-it_head-department">Department: IT</div>
-          </div>
-        </div>
-
-        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('accounts_head')">
-          <div class="member-photo fallback" id="org-accounts_head-photo">A</div>
-          <div class="member-meta">
-            <div class="member-name" id="org-accounts_head-name">Accounts Head</div>
-            <div class="member-designation" id="org-accounts_head-designation">Click to edit</div>
-            <div class="member-empid" id="org-accounts_head-department">Department: Accounts</div>
-          </div>
-        </div>
-      </div>
+      <div id="orgChartWrap" class="org-tree-wrap"></div>
     </div>
   </div>
 </section>
@@ -2414,6 +2518,23 @@ function ensureMemberSeedData() {
       localStorage.setItem(key, JSON.stringify([]));
     }
   });
+
+  // Remove old hardcoded legacy support placeholders if they already exist in browser storage
+  const supportMembers = getStoredArray(STORAGE_KEYS.supportMembers);
+  const cleanedSupportMembers = supportMembers.filter((member) => {
+    const name = String(member?.name || "").trim().toLowerCase();
+    const employeeId = String(member?.employeeId || "").trim().toUpperCase();
+
+    const isLegacyDummy =
+      (name === "manager" && employeeId === "SUP-001") ||
+      (name === "team lead" && employeeId === "SUP-002") ||
+      (name === "senior agent" && employeeId === "SUP-003") ||
+      (name === "support agent" && employeeId === "SUP-004");
+
+    return !isLegacyDummy;
+  });
+
+  localStorage.setItem(STORAGE_KEYS.supportMembers, JSON.stringify(cleanedSupportMembers));
 }
 
     function hydrateRememberedLogin() {
@@ -2793,9 +2914,7 @@ function requestCsvUpload(departmentKey = "support") {
 
   const input = document.getElementById("csvFileInput");
   input.value = "";
-  setTimeout(() => {
-    input.click();
-  }, 50);
+  input.click();
 }
 
 function handleCsvFileSelect(event) {
@@ -3326,23 +3445,188 @@ function submitNewMember() {
 function renderOrganizationChart() {
   const data = getStoredArray(STORAGE_KEYS.organizationChart);
 
-  ["founder", "md", "sales_head", "support_head", "hr_head", "it_head", "accounts_head"].forEach((key) => {
-    const item = data.find((x) => x.key === key);
-    if (!item) return;
+  function getNode(key, defaults) {
+    const existing = data.find((x) => x.key === key) || {};
+    return {
+      key,
+      name: existing.name || defaults.name,
+      designation: existing.designation || defaults.designation,
+      department: existing.department || defaults.department,
+      photo: existing.photo || ""
+    };
+  }
 
-    const nameEl = document.getElementById(`org-${key}-name`);
-    const designationEl = document.getElementById(`org-${key}-designation`);
-    const departmentEl = document.getElementById(`org-${key}-department`);
-    const photoEl = document.getElementById(`org-${key}-photo`);
-
-    if (nameEl) nameEl.textContent = item.name || "Not set";
-    if (designationEl) designationEl.textContent = item.designation || "Not set";
-    if (departmentEl) departmentEl.textContent = `Department: ${item.department || "-"}`;
-
-    if (photoEl && item.photo) {
-      photoEl.outerHTML = `<img class="member-photo" id="org-${key}-photo" src="${item.photo}" alt="${escapeHtml(item.name || key)}" />`;
+  function renderPhoto(node, fallbackText, isMini = false) {
+    if (node.photo) {
+      return `<img class="${isMini ? "org-mini-photo" : "org-card-photo"}" src="${node.photo}" alt="${escapeHtml(node.name)}" />`;
     }
+    return `<div class="${isMini ? "org-mini-photo" : "org-card-photo"} fallback">${escapeHtml(fallbackText)}</div>`;
+  }
+
+  function renderBigCard(node, fallbackText) {
+    return `
+      <div class="org-card" onclick="editOrgNode('${node.key}')">
+        ${renderPhoto(node, fallbackText)}
+        <div class="org-card-title">${escapeHtml(node.name)}</div>
+        <div class="org-card-subtitle">${escapeHtml(node.designation)}<br>${escapeHtml(node.department)}</div>
+      </div>
+    `;
+  }
+
+  function renderMiniCard(node, fallbackText) {
+    return `
+      <div class="org-mini-card" onclick="editOrgNode('${node.key}')">
+        ${renderPhoto(node, fallbackText, true)}
+        <div class="org-mini-text">
+          <div class="org-mini-name">${escapeHtml(node.name)}</div>
+          <div class="org-mini-role">${escapeHtml(node.designation)}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  const founder = getNode("founder", {
+    name: "Founder & CEO",
+    designation: "Founder & CEO",
+    department: "Leadership"
   });
+
+  const md = getNode("md", {
+    name: "Managing Director",
+    designation: "Managing Director (MD)",
+    department: "Leadership"
+  });
+
+  const heads = [
+    {
+      head: getNode("sales_head", {
+        name: "Sales Functional Head",
+        designation: "Functional Head",
+        department: "Sales"
+      }),
+      manager: getNode("sales_manager", {
+        name: "Sales Manager",
+        designation: "Manager",
+        department: "Sales"
+      }),
+      members: Array.from({ length: 10 }, (_, i) =>
+        getNode(`sales_member_${i + 1}`, {
+          name: `Sales Member ${i + 1}`,
+          designation: "Team Member",
+          department: "Sales"
+        })
+      )
+    },
+    {
+      head: getNode("support_head", {
+        name: "Support Functional Head",
+        designation: "Functional Head",
+        department: "Support"
+      }),
+      manager: getNode("support_manager", {
+        name: "Support Manager",
+        designation: "Manager",
+        department: "Support"
+      }),
+      members: Array.from({ length: 10 }, (_, i) =>
+        getNode(`support_member_${i + 1}`, {
+          name: `Support Member ${i + 1}`,
+          designation: "Team Member",
+          department: "Support"
+        })
+      )
+    },
+    {
+      head: getNode("marketing_head", {
+        name: "Marketing Functional Head",
+        designation: "Functional Head",
+        department: "Marketing"
+      }),
+      manager: getNode("marketing_manager", {
+        name: "Marketing Manager",
+        designation: "Manager",
+        department: "Marketing"
+      }),
+      members: Array.from({ length: 10 }, (_, i) =>
+        getNode(`marketing_member_${i + 1}`, {
+          name: `Marketing Member ${i + 1}`,
+          designation: "Team Member",
+          department: "Marketing"
+        })
+      )
+    },
+    {
+      head: getNode("hr_head", {
+        name: "HR Functional Head",
+        designation: "Functional Head",
+        department: "HR"
+      }),
+      manager: getNode("hr_manager", {
+        name: "HR Manager",
+        designation: "Manager",
+        department: "HR"
+      }),
+      members: Array.from({ length: 10 }, (_, i) =>
+        getNode(`hr_member_${i + 1}`, {
+          name: `HR Member ${i + 1}`,
+          designation: "Team Member",
+          department: "HR"
+        })
+      )
+    },
+    {
+      head: getNode("it_head", {
+        name: "IT Functional Head",
+        designation: "Functional Head",
+        department: "IT"
+      }),
+      manager: getNode("it_manager", {
+        name: "IT Manager",
+        designation: "Manager",
+        department: "IT"
+      }),
+      members: Array.from({ length: 10 }, (_, i) =>
+        getNode(`it_member_${i + 1}`, {
+          name: `IT Member ${i + 1}`,
+          designation: "Team Member",
+          department: "IT"
+        })
+      )
+    }
+  ];
+
+  const html = `
+    <div class="org-tree-row">
+      ${renderBigCard(founder, "F")}
+    </div>
+
+    <div class="org-line-vertical"></div>
+
+    <div class="org-tree-row">
+      ${renderBigCard(md, "M")}
+    </div>
+
+    <div class="org-line-vertical"></div>
+    <div class="org-line-horizontal"></div>
+
+    <div class="org-tree-row">
+      ${heads.map((group, groupIndex) => `
+        <div class="org-tree-branch">
+          ${renderBigCard(group.head, String(group.head.department || "H").charAt(0))}
+          <div class="org-line-vertical"></div>
+          ${renderBigCard(group.manager, "M")}
+          <div class="org-line-vertical"></div>
+          <div class="org-team-list">
+            ${group.members.map((member, memberIndex) =>
+              renderMiniCard(member, `${memberIndex + 1}`)
+            ).join("")}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  document.getElementById("orgChartWrap").innerHTML = html;
 }
 
 function editOrgNode(nodeKey) {
