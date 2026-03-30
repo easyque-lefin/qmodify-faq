@@ -2416,6 +2416,31 @@
   class="hidden"
 />
 
+<div id="csvPasswordModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-header">Load Emails</div>
+    <div class="modal-body">
+      <div class="modal-message">
+        Enter password to upload a CSV file.
+      </div>
+
+      <div class="field-group">
+        <label for="csvPasswordInput">Password</label>
+        <div class="input-wrap">
+          <input type="password" id="csvPasswordInput" placeholder="Enter password" />
+        </div>
+      </div>
+
+      <div id="csvPasswordMessage" class="helper-text"></div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" onclick="closeCsvPasswordModal()">Cancel</button>
+        <button type="button" class="secondary-btn primary" onclick="submitCsvPasswordAndOpenPicker()">Verify & Choose CSV</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <script>
     /* ---------------------------
        CONFIG / CONSTANTS
@@ -2902,19 +2927,36 @@ function mapCsvRowToDepartmentEmail(row, index, departmentKey) {
     }
 
 function requestCsvUpload(departmentKey = "support") {
-  const password = prompt("Enter password to proceed:");
-  if (password === null) return;
+  window.__activeDepartmentForUpload = departmentKey;
+  document.getElementById("csvPasswordInput").value = "";
+  document.getElementById("csvPasswordMessage").textContent = "";
+  document.getElementById("csvPasswordModal").classList.add("active");
+}
+
+
+function closeCsvPasswordModal() {
+  document.getElementById("csvPasswordModal").classList.remove("active");
+}
+
+function submitCsvPasswordAndOpenPicker() {
+  const departmentKey = window.__activeDepartmentForUpload || "support";
+  const password = document.getElementById("csvPasswordInput").value;
 
   if (password !== ADMIN_PASS) {
-    showTemporaryMessage(`${departmentKey}Message`, "Wrong password for loading emails.", "error");
+    showTemporaryMessage("csvPasswordMessage", "Wrong password for loading emails.", "error");
     return;
   }
 
-  window.__activeDepartmentForUpload = departmentKey;
+  closeCsvPasswordModal();
 
   const input = document.getElementById("csvFileInput");
   input.value = "";
-  input.click();
+
+  if (typeof input.showPicker === "function") {
+    input.showPicker();
+  } else {
+    input.click();
+  }
 }
 
 function handleCsvFileSelect(event) {
