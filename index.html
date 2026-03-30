@@ -1391,8 +1391,9 @@
             <span class="forgot-text" onclick="showTemporaryMessage('loginMessage', 'Please use the provided login details.', 'helper')">Forgot Password?</span>
           </div>
 
-          <button type="submit" class="login-btn">Login</button>
-          <div id="loginMessage" class="helper-text"></div>
+<button type="submit" class="login-btn">Login</button>
+<button type="button" class="secondary-btn" style="width:100%;margin-top:12px;" onclick="openCreateAccountModal()">Create Account</button>
+<div id="loginMessage" class="helper-text"></div>
         </form>
 
         <div class="login-footer">© 2026 QModify Technologies LLP</div>
@@ -1435,42 +1436,52 @@
 
                 <div id="dashboardMessage" class="helper-text" style="margin-bottom: 10px;"></div>
 
-                <div class="dashboard-grid">
-                  <button class="nav-tile" onclick="goToFaqPage()">
-                    <div class="tile-icon">❓</div>
-                    <div>FAQ</div>
-                  </button>
+<div class="dashboard-grid">
+  <button class="nav-tile" onclick="goToFaqPage()">
+    <div class="tile-icon">❓</div>
+    <div>FAQ</div>
+  </button>
 
-                  <button class="nav-tile" onclick="goToSupportPage()">
-                    <div class="tile-icon">🛡️</div>
-                    <div>Support Team</div>
-                  </button>
+  <button class="nav-tile" data-department-tile="support" onclick="openDepartmentPage('support')">
+    <div class="tile-icon">🛡️</div>
+    <div>Support Team</div>
+  </button>
 
-                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'Sales Team will be wired later.', 'helper')">
-                    <div class="tile-icon">📈</div>
-                    <div>Sales Team</div>
-                  </button>
+  <button class="nav-tile" data-department-tile="sales" onclick="openDepartmentPage('sales')">
+    <div class="tile-icon">📈</div>
+    <div>Sales Team</div>
+  </button>
 
-                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'Marketing Team will be wired later.', 'helper')">
-                    <div class="tile-icon">📣</div>
-                    <div>Marketing Team</div>
-                  </button>
+  <button class="nav-tile" data-department-tile="marketing" onclick="openDepartmentPage('marketing')">
+    <div class="tile-icon">📣</div>
+    <div>Marketing Team</div>
+  </button>
 
-                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'HR Team will be wired later.', 'helper')">
-                    <div class="tile-icon">🧑‍🤝‍🧑</div>
-                    <div>HR Team</div>
-                  </button>
+  <button class="nav-tile" data-department-tile="hr" onclick="openDepartmentPage('hr')">
+    <div class="tile-icon">🧑‍🤝‍🧑</div>
+    <div>HR Team</div>
+  </button>
 
-                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'IT Team will be wired later.', 'helper')">
-                    <div class="tile-icon">🖥️</div>
-                    <div>IT Team</div>
-                  </button>
+  <button class="nav-tile" data-department-tile="it" onclick="openDepartmentPage('it')">
+    <div class="tile-icon">🖥️</div>
+    <div>IT Team</div>
+  </button>
 
-                  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'Employee Login can be wired to another module later.', 'helper')">
-                    <div class="tile-icon">🪪</div>
-                    <div>Employee Login</div>
-                  </button>
-                </div>
+  <button class="nav-tile" data-department-tile="accounts" onclick="openDepartmentPage('accounts')">
+    <div class="tile-icon">💰</div>
+    <div>Accounts Team</div>
+  </button>
+
+  <button class="nav-tile" onclick="goToOrganizationPage()">
+    <div class="tile-icon">🏢</div>
+    <div>My Organization</div>
+  </button>
+
+  <button class="nav-tile" onclick="showTemporaryMessage('dashboardMessage', 'Employee Login page can be added next.', 'helper')">
+    <div class="tile-icon">🪪</div>
+    <div>Employee Login</div>
+  </button>
+</div>
 
                 <div class="dashboard-bottom-row">
                   <div class="widget-card">
@@ -1562,18 +1573,22 @@
               <div class="support-top-actions">
                 <div class="support-left-actions">
                   <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
-                  <button class="file-btn primary" onclick="requestCsvUpload()">Load Emails</button>
-                  <button class="mini-btn" onclick="clearLoadedEmails()">Clear Loaded Emails</button>
+                  <button class="file-btn primary" onclick="requestCsvUpload('support')">Load Emails</button>
+                  <button class="mini-btn" onclick="clearLoadedEmails('support')">Clear Loaded Emails</button>
                 </div>
 
-                <div class="support-right-actions">
-                  <div class="date-range-wrap">
-                    <label>Date Range:</label>
-                    <input type="date" id="supportDateFrom" onchange="renderSupportEmails()" />
-                    <span>to</span>
-                    <input type="date" id="supportDateTo" onchange="renderSupportEmails()" />
-                  </div>
-                </div>
+<div class="support-right-actions">
+  <div class="date-range-wrap">
+    <label>Date Range:</label>
+    <input type="date" id="supportDateFrom" onchange="renderDepartmentEmails('support')" />
+    <span>to</span>
+    <input type="date" id="supportDateTo" onchange="renderDepartmentEmails('support')" />
+  </div>
+
+  <button class="file-btn" onclick="openMyBucket('support')">My Bucket</button>
+  <button class="file-btn primary" onclick="assignSelectedEmails('support')">Assign</button>
+  <button class="mini-btn" onclick="refreshDepartmentPage('support')">Refresh</button>
+</div>
               </div>
 
               <div id="supportMessage" class="helper-text" style="margin-bottom:12px;"></div>
@@ -1582,6 +1597,8 @@
                 <table class="support-table">
                   <thead>
                     <tr>
+            <th><input type="checkbox" onchange="toggleSelectAllEmails('support', this.checked)" /></th>
+
                       <th>Date/Time Loaded</th>
                       <th>Sender</th>
                       <th>Name</th>
@@ -1602,10 +1619,10 @@
           <aside class="support-members-card">
             <div class="support-members-header">
               <div class="support-members-title">Support Team Members</div>
-              <button class="add-member-btn primary" onclick="requestAddMember()">Add Member</button>
+              <button class="add-member-btn primary" onclick="requestAddMember('support')">Add Member</button>
             </div>
 
-            <div class="members-list" id="membersList"></div>
+            <div class="members-list" id="supportMembersList"></div>
 
             <div class="support-footer">© 2026 QModify Technologies LLP - Support Dashboard</div>
           </aside>
@@ -1681,7 +1698,452 @@
         </div>
       </div>
     </section>
+
+
+<!-- ORGANIZATION PAGE -->
+<section id="organizationPage" class="page">
+  <div class="page-inner">
+    <div class="support-page-title">
+      <div class="brand-logo" style="width:46px;height:46px;font-size:22px;">Q</div>
+      <span>My Organization</span>
+    </div>
+
+    <div class="support-main-card" style="padding:24px;">
+      <div style="margin-bottom:16px;">
+        <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
+      </div>
+
+      <div id="orgChartWrap" style="display:grid;gap:20px;">
+        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('founder')">
+          <div class="member-photo fallback" id="org-founder-photo">F</div>
+          <div class="member-meta">
+            <div class="member-name" id="org-founder-name">Founder & CEO</div>
+            <div class="member-designation" id="org-founder-designation">Click to edit</div>
+            <div class="member-empid" id="org-founder-department">Department: Leadership</div>
+          </div>
+        </div>
+
+        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('md')">
+          <div class="member-photo fallback" id="org-md-photo">M</div>
+          <div class="member-meta">
+            <div class="member-name" id="org-md-name">Managing Director</div>
+            <div class="member-designation" id="org-md-designation">Click to edit</div>
+            <div class="member-empid" id="org-md-department">Department: Leadership</div>
+          </div>
+        </div>
+
+        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('sales_head')">
+          <div class="member-photo fallback" id="org-sales_head-photo">S</div>
+          <div class="member-meta">
+            <div class="member-name" id="org-sales_head-name">Sales Head</div>
+            <div class="member-designation" id="org-sales_head-designation">Click to edit</div>
+            <div class="member-empid" id="org-sales_head-department">Department: Sales</div>
+          </div>
+        </div>
+
+        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('support_head')">
+          <div class="member-photo fallback" id="org-support_head-photo">S</div>
+          <div class="member-meta">
+            <div class="member-name" id="org-support_head-name">Support Head</div>
+            <div class="member-designation" id="org-support_head-designation">Click to edit</div>
+            <div class="member-empid" id="org-support_head-department">Department: Support</div>
+          </div>
+        </div>
+
+        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('hr_head')">
+          <div class="member-photo fallback" id="org-hr_head-photo">H</div>
+          <div class="member-meta">
+            <div class="member-name" id="org-hr_head-name">HR Head</div>
+            <div class="member-designation" id="org-hr_head-designation">Click to edit</div>
+            <div class="member-empid" id="org-hr_head-department">Department: HR</div>
+          </div>
+        </div>
+
+        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('it_head')">
+          <div class="member-photo fallback" id="org-it_head-photo">I</div>
+          <div class="member-meta">
+            <div class="member-name" id="org-it_head-name">IT Head</div>
+            <div class="member-designation" id="org-it_head-designation">Click to edit</div>
+            <div class="member-empid" id="org-it_head-department">Department: IT</div>
+          </div>
+        </div>
+
+        <div class="member-item" style="cursor:pointer;" onclick="editOrgNode('accounts_head')">
+          <div class="member-photo fallback" id="org-accounts_head-photo">A</div>
+          <div class="member-meta">
+            <div class="member-name" id="org-accounts_head-name">Accounts Head</div>
+            <div class="member-designation" id="org-accounts_head-designation">Click to edit</div>
+            <div class="member-empid" id="org-accounts_head-department">Department: Accounts</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
+
+
+
+    <!-- SALES PAGE -->
+    <section id="salesPage" class="page">
+      <div class="page-inner">
+        <div class="support-page-title">
+          <div class="brand-logo" style="width:46px;height:46px;font-size:22px;">Q</div>
+          <span>Q-Mates Sales Team</span>
+        </div>
+
+        <div class="support-page-card">
+          <div class="support-main-card">
+            <div class="support-main-inner">
+              <div class="support-top-actions">
+                <div class="support-left-actions">
+                  <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
+                  <button class="file-btn primary" onclick="requestCsvUpload('sales')">Load Emails</button>
+                  <button class="mini-btn" onclick="clearLoadedEmails('sales')">Clear Loaded Emails</button>
+                </div>
+
+<div class="support-right-actions">
+  <div class="date-range-wrap">
+    <label>Date Range:</label>
+    <input type="date" id="salesDateFrom" onchange="renderDepartmentEmails('sales')" />
+    <span>to</span>
+    <input type="date" id="salesDateTo" onchange="renderDepartmentEmails('sales')" />
+  </div>
+
+  <button class="file-btn" onclick="openMyBucket('sales')">My Bucket</button>
+  <button class="file-btn primary" onclick="assignSelectedEmails('sales')">Assign</button>
+  <button class="mini-btn" onclick="refreshDepartmentPage('sales')">Refresh</button>
+</div>
+              </div>
+
+              <div id="salesMessage" class="helper-text" style="margin-bottom:12px;"></div>
+
+              <div class="support-table-wrap">
+                <table class="support-table">
+<thead>
+  <tr>
+    <th><input type="checkbox" onchange="toggleSelectAllEmails('sales', this.checked)" /></th>
+    <th>Date/Time Loaded</th>
+    <th>Sender</th>
+    <th>Name</th>
+    <th>Subject</th>
+    <th>Phone</th>
+    <th>Org/User ID</th>
+    <th>Status</th>
+    <th>Reply</th>
+    <th>Mark Status</th>
+  </tr>
+</thead>
+                  <tbody id="salesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <aside class="support-members-card">
+            <div class="support-members-header">
+              <div class="support-members-title">Sales Team Members</div>
+              <button class="add-member-btn primary" onclick="requestAddMember('sales')">Add Member</button>
+            </div>
+
+            <div class="members-list" id="salesMembersList"></div>
+
+            <div class="support-footer">© 2026 QModify Technologies LLP - Support Dashboard</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+
+</div>
+
+
+   <!-- MARKETING PAGE -->
+    <section id="marketingPage" class="page">
+      <div class="page-inner">
+        <div class="support-page-title">
+          <div class="brand-logo" style="width:46px;height:46px;font-size:22px;">Q</div>
+          <span>Q-Mates Marketing Team</span>
+        </div>
+
+        <div class="support-page-card">
+          <div class="support-main-card">
+            <div class="support-main-inner">
+              <div class="support-top-actions">
+                <div class="support-left-actions">
+                  <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
+                  <button class="file-btn primary" onclick="requestCsvUpload('marketing')">Load Emails</button>
+                  <button class="mini-btn" onclick="clearLoadedEmails('marketing')">Clear Loaded Emails</button>
+                </div>
+
+<div class="support-right-actions">
+  <div class="date-range-wrap">
+    <label>Date Range:</label>
+    <input type="date" id="marketingDateFrom" onchange="renderDepartmentEmails('marketing')" />
+    <span>to</span>
+    <input type="date" id="marketingDateTo" onchange="renderDepartmentEmails('marketing')" />
+  </div>
+
+  <button class="file-btn" onclick="openMyBucket('marketing')">My Bucket</button>
+  <button class="file-btn primary" onclick="assignSelectedEmails('marketing')">Assign</button>
+  <button class="mini-btn" onclick="refreshDepartmentPage('marketing')">Refresh</button>
+</div>
+              </div>
+
+              <div id="marketingMessage" class="helper-text" style="margin-bottom:12px;"></div>
+
+              <div class="support-table-wrap">
+                <table class="support-table">
+<thead>
+  <tr>
+    <th><input type="checkbox" onchange="toggleSelectAllEmails('marketing', this.checked)" /></th>
+    <th>Date/Time Loaded</th>
+    <th>Sender</th>
+    <th>Name</th>
+    <th>Subject</th>
+    <th>Phone</th>
+    <th>Org/User ID</th>
+    <th>Status</th>
+    <th>Reply</th>
+    <th>Mark Status</th>
+  </tr>
+</thead>
+                  <tbody id="marketingTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <aside class="support-members-card">
+            <div class="support-members-header">
+              <div class="support-members-title">Marketing Team Members</div>
+              <button class="add-member-btn primary" onclick="requestAddMember('marketing')">Add Member</button>
+            </div>
+
+            <div class="members-list" id="marketingMembersList"></div>
+
+            <div class="support-footer">© 2026 QModify Technologies LLP - Support Dashboard</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+
+
+ <!-- HR PAGE -->
+    <section id="hrPage" class="page">
+      <div class="page-inner">
+        <div class="support-page-title">
+          <div class="brand-logo" style="width:46px;height:46px;font-size:22px;">Q</div>
+          <span>Q-Mates HR Team</span>
+        </div>
+
+        <div class="support-page-card">
+          <div class="support-main-card">
+            <div class="support-main-inner">
+              <div class="support-top-actions">
+                <div class="support-left-actions">
+                  <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
+                  <button class="file-btn primary" onclick="requestCsvUpload('hr')">Load Emails</button>
+                  <button class="mini-btn" onclick="clearLoadedEmails('hr')">Clear Loaded Emails</button>
+                </div>
+
+ <div class="support-right-actions">
+  <div class="date-range-wrap">
+    <label>Date Range:</label>
+    <input type="date" id="hrDateFrom" onchange="renderDepartmentEmails('hr')" />
+    <span>to</span>
+    <input type="date" id="hrDateTo" onchange="renderDepartmentEmails('hr')" />
+  </div>
+
+  <button class="file-btn" onclick="openMyBucket('hr')">My Bucket</button>
+  <button class="file-btn primary" onclick="assignSelectedEmails('hr')">Assign</button>
+  <button class="mini-btn" onclick="refreshDepartmentPage('hr')">Refresh</button>
+</div>
+              </div>
+
+              <div id="hrMessage" class="helper-text" style="margin-bottom:12px;"></div>
+
+              <div class="support-table-wrap">
+                <table class="support-table">
+<thead>
+  <tr>
+    <th><input type="checkbox" onchange="toggleSelectAllEmails('hr', this.checked)" /></th>
+    <th>Date/Time Loaded</th>
+    <th>Sender</th>
+    <th>Name</th>
+    <th>Subject</th>
+    <th>Phone</th>
+    <th>Org/User ID</th>
+    <th>Status</th>
+    <th>Reply</th>
+    <th>Mark Status</th>
+  </tr>
+</thead>
+                  <tbody id="hrTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <aside class="support-members-card">
+            <div class="support-members-header">
+              <div class="support-members-title">HR Team Members</div>
+              <button class="add-member-btn primary" onclick="requestAddMember('hr')">Add Member</button>
+            </div>
+
+            <div class="members-list" id="hrMembersList"></div>
+
+            <div class="support-footer">© 2026 QModify Technologies LLP - Support Dashboard</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+
+
+     <!-- IT PAGE -->
+    <section id="itPage" class="page">
+      <div class="page-inner">
+        <div class="support-page-title">
+          <div class="brand-logo" style="width:46px;height:46px;font-size:22px;">Q</div>
+          <span>Q-Mates IT Team</span>
+        </div>
+
+        <div class="support-page-card">
+          <div class="support-main-card">
+            <div class="support-main-inner">
+              <div class="support-top-actions">
+                <div class="support-left-actions">
+                  <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
+                  <button class="file-btn primary" onclick="requestCsvUpload('it')">Load Emails</button>
+                  <button class="mini-btn" onclick="clearLoadedEmails('it')">Clear Loaded Emails</button>
+                </div>
+
+<div class="support-right-actions">
+  <div class="date-range-wrap">
+    <label>Date Range:</label>
+    <input type="date" id="itDateFrom" onchange="renderDepartmentEmails('it')" />
+    <span>to</span>
+    <input type="date" id="itDateTo" onchange="renderDepartmentEmails('it')" />
+  </div>
+
+  <button class="file-btn" onclick="openMyBucket('it')">My Bucket</button>
+  <button class="file-btn primary" onclick="assignSelectedEmails('it')">Assign</button>
+  <button class="mini-btn" onclick="refreshDepartmentPage('it')">Refresh</button>
+</div>
+              </div>
+
+              <div id="itMessage" class="helper-text" style="margin-bottom:12px;"></div>
+
+              <div class="support-table-wrap">
+                <table class="support-table">
+<thead>
+  <tr>
+    <th><input type="checkbox" onchange="toggleSelectAllEmails('it', this.checked)" /></th>
+    <th>Date/Time Loaded</th>
+    <th>Sender</th>
+    <th>Name</th>
+    <th>Subject</th>
+    <th>Phone</th>
+    <th>Org/User ID</th>
+    <th>Status</th>
+    <th>Reply</th>
+    <th>Mark Status</th>
+  </tr>
+</thead>
+                  <tbody id="itTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <aside class="support-members-card">
+            <div class="support-members-header">
+              <div class="support-members-title">IT Team Members</div>
+              <button class="add-member-btn primary" onclick="requestAddMember('it')">Add Member</button>
+            </div>
+
+            <div class="members-list" id="itMembersList"></div>
+
+            <div class="support-footer">© 2026 QModify Technologies LLP - Support Dashboard</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+
+
+
+     <!-- ACCOUNTS PAGE -->
+    <section id="accountsPage" class="page">
+      <div class="page-inner">
+        <div class="support-page-title">
+          <div class="brand-logo" style="width:46px;height:46px;font-size:22px;">Q</div>
+          <span>Q-Mates Accounts Team</span>
+        </div>
+
+        <div class="support-page-card">
+          <div class="support-main-card">
+            <div class="support-main-inner">
+              <div class="support-top-actions">
+                <div class="support-left-actions">
+                  <button class="secondary-btn back-btn" onclick="goToDashboard()">← Back</button>
+                  <button class="file-btn primary" onclick="requestCsvUpload('accounts')">Load Emails</button>
+                  <button class="mini-btn" onclick="clearLoadedEmails('accounts')">Clear Loaded Emails</button>
+                </div>
+
+<div class="support-right-actions">
+  <div class="date-range-wrap">
+    <label>Date Range:</label>
+    <input type="date" id="accountsDateFrom" onchange="renderDepartmentEmails('accounts')" />
+    <span>to</span>
+    <input type="date" id="accountsDateTo" onchange="renderDepartmentEmails('accounts')" />
+  </div>
+
+  <button class="file-btn" onclick="openMyBucket('accounts')">My Bucket</button>
+  <button class="file-btn primary" onclick="assignSelectedEmails('accounts')">Assign</button>
+  <button class="mini-btn" onclick="refreshDepartmentPage('accounts')">Refresh</button>
+</div>
+              </div>
+
+              <div id="accountsMessage" class="helper-text" style="margin-bottom:12px;"></div>
+
+              <div class="support-table-wrap">
+                <table class="support-table">
+<thead>
+  <tr>
+    <th><input type="checkbox" onchange="toggleSelectAllEmails('accounts', this.checked)" /></th>
+    <th>Date/Time Loaded</th>
+    <th>Sender</th>
+    <th>Name</th>
+    <th>Subject</th>
+    <th>Phone</th>
+    <th>Org/User ID</th>
+    <th>Status</th>
+    <th>Reply</th>
+    <th>Mark Status</th>
+  </tr>
+</thead>
+                  <tbody id="accountsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <aside class="support-members-card">
+            <div class="support-members-header">
+              <div class="support-members-title">Accounts Team Members</div>
+              <button class="add-member-btn primary" onclick="requestAddMember('accounts')">Add Member</button>
+            </div>
+
+            <div class="members-list" id="accountsMembersList"></div>
+
+            <div class="support-footer">© 2026 QModify Technologies LLP - Support Dashboard</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
 
   <!-- HIDDEN FILE INPUTS -->
   <input
@@ -1754,6 +2216,102 @@
     </div>
   </div>
 
+
+  <div id="createAccountModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-header">Create Account</div>
+    <div class="modal-body">
+      <div class="field-group">
+        <label for="createAccountEmail">Username (Email)</label>
+        <div class="input-wrap">
+          <input type="email" id="createAccountEmail" placeholder="Enter email address" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="createAccountPassword">Password</label>
+        <div class="input-wrap">
+          <input type="password" id="createAccountPassword" placeholder="Enter strong password" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="createAccountDepartment">Department</label>
+        <div class="input-wrap">
+          <select id="createAccountDepartment">
+            <option value="">Select department</option>
+            <option value="sales">Sales Team</option>
+            <option value="support">Support Team</option>
+            <option value="it">IT Team</option>
+            <option value="marketing">Marketing Team</option>
+            <option value="hr">HR Team</option>
+            <option value="accounts">Accounts Team</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="createAccountMessage" class="helper-text"></div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" onclick="closeCreateAccountModal()">Cancel</button>
+        <button type="button" class="secondary-btn primary" onclick="submitCreateAccount()">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="orgNodeModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-header">Edit Organization Node</div>
+    <div class="modal-body">
+      <div class="field-group">
+        <label for="orgNodeName">Name</label>
+        <div class="input-wrap">
+          <input type="text" id="orgNodeName" placeholder="Enter name" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="orgNodeDesignation">Designation</label>
+        <div class="input-wrap">
+          <input type="text" id="orgNodeDesignation" placeholder="Enter designation" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="orgNodeDepartment">Department</label>
+        <div class="input-wrap">
+          <input type="text" id="orgNodeDepartment" placeholder="Enter department" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Photo</label>
+        <button type="button" class="file-btn" onclick="document.getElementById('orgNodePhotoInput').click()">Upload Photo</button>
+        <div class="preview-wrap">
+          <img id="orgNodePhotoPreview" class="preview-photo hidden" alt="Preview" />
+          <div id="orgNodePhotoName" class="helper-text">No file selected</div>
+        </div>
+      </div>
+
+      <div id="orgNodeModalMessage" class="helper-text"></div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" onclick="closeOrgNodeModal()">Cancel</button>
+        <button type="button" class="secondary-btn primary" onclick="saveOrgNode()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input
+  type="file"
+  id="orgNodePhotoInput"
+  accept="image/*"
+  class="hidden"
+/>
+
   <script>
     /* ---------------------------
        CONFIG / CONSTANTS
@@ -1762,17 +2320,45 @@
       "https://script.google.com/macros/s/AKfycbwiQg6_DRICn6w166CTuwyH-am8866ZgCBrELcqJu3Xx0ZiYupZOKCOY4qtRV_2yk7z/exec";
     const ADMIN_PASS = "Godislove@22";
 
-    const LOGIN_EMAIL = "contact@qmodify.com";
-    const LOGIN_PASSWORD = "Myqmodify@123";
+const SUPER_ADMIN_EMAIL = "contact@qmodify.com";
+const SUPER_ADMIN_PASSWORD = "Godislove@22";
+const ASSIGN_PASSWORD = "CheckerModify@12345";
 
-    const STORAGE_KEYS = {
-      auth: "qmates_auth",
-      remember: "qmates_remember",
-      rememberedEmail: "qmates_remembered_email",
-      rememberedPassword: "qmates_remembered_password",
-      supportEmails: "qmates_support_emails",
-      supportMembers: "qmates_support_members"
-    };
+const DEPARTMENTS = [
+  { key: "support", label: "Support Team", icon: "🛡️" },
+  { key: "sales", label: "Sales Team", icon: "📈" },
+  { key: "marketing", label: "Marketing Team", icon: "📣" },
+  { key: "hr", label: "HR Team", icon: "🧑‍🤝‍🧑" },
+  { key: "it", label: "IT Team", icon: "🖥️" },
+  { key: "accounts", label: "Accounts Team", icon: "💰" }
+];
+
+const STORAGE_KEYS = {
+  auth: "qmates_auth",
+  remember: "qmates_remember",
+  rememberedEmail: "qmates_remembered_email",
+  rememberedPassword: "qmates_remembered_password",
+
+  users: "qmates_users",
+  currentUser: "qmates_current_user",
+
+  supportEmails: "qmates_support_emails",
+  salesEmails: "qmates_sales_emails",
+  marketingEmails: "qmates_marketing_emails",
+  hrEmails: "qmates_hr_emails",
+  itEmails: "qmates_it_emails",
+  accountsEmails: "qmates_accounts_emails",
+
+  supportMembers: "qmates_support_members",
+  salesMembers: "qmates_sales_members",
+  marketingMembers: "qmates_marketing_members",
+  hrMembers: "qmates_hr_members",
+  itMembers: "qmates_it_members",
+  accountsMembers: "qmates_accounts_members",
+
+  assignedBuckets: "qmates_assigned_buckets",
+  organizationChart: "qmates_organization_chart"
+};
 
     const DESIGNATION_ORDER = {
       "Manager": 1,
@@ -1782,18 +2368,17 @@
       "Junior Support Agent": 5
     };
 
-    let masterData = [];
-    let memberPhotoDataUrl = "";
+let masterData = [];
+let memberPhotoDataUrl = "";
+let orgNodePhotoDataUrl = "";
+window.__activeDepartmentForUpload = "support";
+window.__activeDepartmentForMember = "support";
+window.__orgNodeEditingKey = "";
 
     /* ---------------------------
        DEFAULT SUPPORT MEMBERS
     --------------------------- */
-    const defaultMembers = [
-      { name: "Manager", designation: "Manager", employeeId: "SUP-001", photo: "" },
-      { name: "Team Lead", designation: "Team Lead", employeeId: "SUP-002", photo: "" },
-      { name: "Senior Agent", designation: "Senior Agent", employeeId: "SUP-003", photo: "" },
-      { name: "Support Agent", designation: "Support Agent", employeeId: "SUP-004", photo: "" }
-    ];
+const defaultMembers = [];
 
     /* ---------------------------
        INIT
@@ -1805,18 +2390,31 @@
       tryAutoLogin();
     });
 
-    function wireEventListeners() {
-      document.getElementById("loginForm").addEventListener("submit", handleLogin);
-      document.getElementById("csvFileInput").addEventListener("change", handleCsvFileSelect);
-      document.getElementById("memberPhotoInput").addEventListener("change", handleMemberPhotoSelect);
-    }
+function wireEventListeners() {
+  document.getElementById("loginForm").addEventListener("submit", handleLogin);
+  document.getElementById("csvFileInput").addEventListener("change", handleCsvFileSelect);
+  document.getElementById("memberPhotoInput").addEventListener("change", handleMemberPhotoSelect);
 
-    function ensureMemberSeedData() {
-      const existing = getStoredArray(STORAGE_KEYS.supportMembers);
-      if (!existing.length) {
-        localStorage.setItem(STORAGE_KEYS.supportMembers, JSON.stringify(defaultMembers));
-      }
+  const orgPhotoInput = document.getElementById("orgNodePhotoInput");
+  if (orgPhotoInput) {
+    orgPhotoInput.addEventListener("change", handleOrgNodePhotoSelect);
+  }
+}
+
+function ensureMemberSeedData() {
+  [
+    STORAGE_KEYS.supportMembers,
+    STORAGE_KEYS.salesMembers,
+    STORAGE_KEYS.marketingMembers,
+    STORAGE_KEYS.hrMembers,
+    STORAGE_KEYS.itMembers,
+    STORAGE_KEYS.accountsMembers
+  ].forEach((key) => {
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, JSON.stringify([]));
     }
+  });
+}
 
     function hydrateRememberedLogin() {
       const remember = localStorage.getItem(STORAGE_KEYS.remember) === "true";
@@ -1829,6 +2427,69 @@
         document.getElementById("loginPassword").value = password;
       }
     }
+
+
+    function openDepartmentPage(departmentKey) {
+  if (!guardDepartmentAccess(departmentKey)) return;
+  showPage(`${departmentKey}Page`);
+  renderMembers(departmentKey);
+  renderDepartmentEmails(departmentKey);
+}
+
+function openCreateAccountModal() {
+  document.getElementById("createAccountEmail").value = "";
+  document.getElementById("createAccountPassword").value = "";
+  document.getElementById("createAccountDepartment").value = "";
+  document.getElementById("createAccountMessage").textContent = "";
+  document.getElementById("createAccountModal").classList.add("active");
+}
+
+function closeCreateAccountModal() {
+  document.getElementById("createAccountModal").classList.remove("active");
+}
+
+function isStrongPassword(password) {
+  return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(password);
+}
+
+function submitCreateAccount() {
+  const email = document.getElementById("createAccountEmail").value.trim().toLowerCase();
+  const password = document.getElementById("createAccountPassword").value;
+  const department = document.getElementById("createAccountDepartment").value;
+
+  if (!email || !password || !department) {
+    showTemporaryMessage("createAccountMessage", "Please fill all fields.", "error");
+    return;
+  }
+
+  if (!isStrongPassword(password)) {
+    showTemporaryMessage("createAccountMessage", "Password must contain alphabets, numbers and symbols.", "error");
+    return;
+  }
+
+  const users = getStoredArray(STORAGE_KEYS.users);
+  const existing = users.find((u) => u.email === email);
+  if (existing) {
+    showTemporaryMessage("createAccountMessage", "This user already exists.", "error");
+    return;
+  }
+
+  users.push({
+    id: createUniqueId("user"),
+    email,
+    password,
+    department
+  });
+
+  localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(users));
+  showTemporaryMessage("createAccountMessage", "Account created successfully.", "success");
+
+  setTimeout(() => {
+    closeCreateAccountModal();
+  }, 900);
+}
+
+
 
     function tryAutoLogin() {
       const auth = localStorage.getItem(STORAGE_KEYS.auth) === "true";
@@ -1863,73 +2524,245 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function goToDashboard() {
-      showPage("dashboardPage");
-      renderMembers();
-      renderSupportEmails();
-    }
+function goToDashboard() {
+  showPage("dashboardPage");
+  renderMembers("support");
+  renderDepartmentEmails("support");
+}
 
-    function goToSupportPage() {
-      showPage("supportPage");
-      renderMembers();
-      renderSupportEmails();
-      initSupportDateRangeDefaults();
-    }
+function goToSupportPage() {
+  openDepartmentPage("support");
+}
 
     function goToFaqPage() {
       showPage("faqPage");
       showTemporaryMessage("faqPageMessage", "FAQ dashboard loaded.", "success");
     }
 
+
+    function goToOrganizationPage() {
+  showPage("organizationPage");
+  renderOrganizationChart();
+}
     /* ---------------------------
        LOGIN
     --------------------------- */
-    function handleLogin(event) {
-      event.preventDefault();
+function handleLogin(event) {
+  event.preventDefault();
 
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value;
-      const remember = document.getElementById("rememberMe").checked;
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  const password = document.getElementById("loginPassword").value;
+  const remember = document.getElementById("rememberMe").checked;
 
-      if (email === LOGIN_EMAIL && password === LOGIN_PASSWORD) {
-        localStorage.setItem(STORAGE_KEYS.auth, "true");
+  let user = null;
 
-        if (remember) {
-          localStorage.setItem(STORAGE_KEYS.remember, "true");
-          localStorage.setItem(STORAGE_KEYS.rememberedEmail, email);
-          localStorage.setItem(STORAGE_KEYS.rememberedPassword, password);
-        } else {
-          localStorage.removeItem(STORAGE_KEYS.remember);
-          localStorage.removeItem(STORAGE_KEYS.rememberedEmail);
-          localStorage.removeItem(STORAGE_KEYS.rememberedPassword);
-        }
-
-        showPage("dashboardPage");
-        afterLoginSuccess();
-      } else {
-        showTemporaryMessage(
-          "loginMessage",
-          "Invalid login. Use contact@qmodify.com and Myqmodify@123",
-          "error"
-        );
-      }
+  if (email === SUPER_ADMIN_EMAIL && password === SUPER_ADMIN_PASSWORD) {
+    user = {
+      email,
+      department: "all",
+      isAdmin: true
+    };
+  } else {
+    const users = getStoredArray(STORAGE_KEYS.users);
+    const found = users.find((u) => u.email === email && u.password === password);
+    if (found) {
+      user = {
+        email: found.email,
+        department: found.department,
+        isAdmin: false
+      };
     }
+  }
 
-    function afterLoginSuccess() {
-      const welcomeName = "Employee Name";
-      document.getElementById("welcomeMessage").textContent =
-        `Welcome back, [${welcomeName}]!`;
-      renderMembers();
-      renderSupportEmails();
-      initSupportDateRangeDefaults();
-      showTemporaryMessage("dashboardMessage", "Login successful.", "success");
-    }
+  if (!user) {
+    showTemporaryMessage("loginMessage", "Invalid login details.", "error");
+    return;
+  }
 
-    function logoutUser() {
-      localStorage.removeItem(STORAGE_KEYS.auth);
-      showLoginScreen();
-      showTemporaryMessage("loginMessage", "Logged out successfully.", "success");
+  localStorage.setItem(STORAGE_KEYS.auth, "true");
+  localStorage.setItem(STORAGE_KEYS.currentUser, JSON.stringify(user));
+
+  if (remember) {
+    localStorage.setItem(STORAGE_KEYS.remember, "true");
+    localStorage.setItem(STORAGE_KEYS.rememberedEmail, email);
+    localStorage.setItem(STORAGE_KEYS.rememberedPassword, password);
+  } else {
+    localStorage.removeItem(STORAGE_KEYS.remember);
+    localStorage.removeItem(STORAGE_KEYS.rememberedEmail);
+    localStorage.removeItem(STORAGE_KEYS.rememberedPassword);
+  }
+
+  showPage("dashboardPage");
+  afterLoginSuccess();
+}
+
+function afterLoginSuccess() {
+  const user = getCurrentUser();
+  const welcomeName = user ? user.email : "Employee";
+  document.getElementById("welcomeMessage").textContent = `Welcome back, [${welcomeName}]!`;
+  applyDashboardAccessControl();
+  renderMembers("support");
+  renderDepartmentEmails("support");
+  showTemporaryMessage("dashboardMessage", "Login successful.", "success");
+}
+function logoutUser() {
+  localStorage.removeItem(STORAGE_KEYS.auth);
+  localStorage.removeItem(STORAGE_KEYS.currentUser);
+  showLoginScreen();
+  showTemporaryMessage("loginMessage", "Logged out successfully.", "success");
+}
+
+function applyDashboardAccessControl() {
+  const user = getCurrentUser();
+  const isAdmin = isSuperAdmin();
+
+  document.querySelectorAll("[data-department-tile]").forEach((btn) => {
+    const departmentKey = btn.getAttribute("data-department-tile");
+    const allowed = isAdmin || (user && user.department === departmentKey);
+
+    btn.disabled = false;
+
+    if (allowed) {
+      btn.style.opacity = "1";
+      btn.style.pointerEvents = "auto";
+      btn.title = "";
+    } else {
+      btn.style.opacity = "0.5";
+      btn.style.pointerEvents = "auto";
+      btn.title = "Access is restricted";
     }
+  });
+}
+
+
+    /* ---------------------------
+   DEPARTMENT / ACCESS HELPERS
+--------------------------- */
+function getDepartmentEmailsStorageKey(departmentKey) {
+  return {
+    support: STORAGE_KEYS.supportEmails,
+    sales: STORAGE_KEYS.salesEmails,
+    marketing: STORAGE_KEYS.marketingEmails,
+    hr: STORAGE_KEYS.hrEmails,
+    it: STORAGE_KEYS.itEmails,
+    accounts: STORAGE_KEYS.accountsEmails
+  }[departmentKey] || STORAGE_KEYS.supportEmails;
+}
+
+function getDepartmentMembersStorageKey(departmentKey) {
+  return {
+    support: STORAGE_KEYS.supportMembers,
+    sales: STORAGE_KEYS.salesMembers,
+    marketing: STORAGE_KEYS.marketingMembers,
+    hr: STORAGE_KEYS.hrMembers,
+    it: STORAGE_KEYS.itMembers,
+    accounts: STORAGE_KEYS.accountsMembers
+  }[departmentKey] || STORAGE_KEYS.supportMembers;
+}
+
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.currentUser) || "null");
+  } catch (e) {
+    return null;
+  }
+}
+
+function isSuperAdmin() {
+  const user = getCurrentUser();
+  return !!user && user.email === SUPER_ADMIN_EMAIL;
+}
+
+function canAccessDepartment(departmentKey) {
+  const user = getCurrentUser();
+  if (!user) return false;
+  if (user.email === SUPER_ADMIN_EMAIL) return true;
+  return user.department === departmentKey;
+}
+
+function guardDepartmentAccess(departmentKey) {
+  if (!canAccessDepartment(departmentKey)) {
+    alert("Access is restricted");
+    return false;
+  }
+  return true;
+}
+
+function getAllMembersAcrossDepartments() {
+  const all = [];
+  DEPARTMENTS.forEach((dept) => {
+    const members = getStoredArray(getDepartmentMembersStorageKey(dept.key));
+    members.forEach((m) => {
+      all.push({
+        ...m,
+        departmentKey: dept.key,
+        departmentLabel: dept.label
+      });
+    });
+  });
+  return all;
+}
+
+function getAssignedBuckets() {
+  return getStoredArray(STORAGE_KEYS.assignedBuckets);
+}
+
+function saveAssignedBuckets(items) {
+  localStorage.setItem(STORAGE_KEYS.assignedBuckets, JSON.stringify(items));
+}
+
+function getDepartmentLabel(departmentKey) {
+  const found = DEPARTMENTS.find((d) => d.key === departmentKey);
+  return found ? found.label : "Department";
+}
+
+function mapCsvRowToDepartmentEmail(row, index, departmentKey) {
+  const firstName = getValueByPossibleKeys(row, [
+    "First name", "First Name", "Firstname", "first name"
+  ]);
+  const lastName = getValueByPossibleKeys(row, [
+    "Last name", "Last Name", "Lastname", "last name"
+  ]);
+  const email = getValueByPossibleKeys(row, ["Email", "email"]);
+  const phone = getValueByPossibleKeys(row, ["Phone", "phone"]);
+  const query = getValueByPossibleKeys(row, [
+    "Write a Query/Issue",
+    "Write a Query / Issue",
+    "Query",
+    "Issue",
+    "Query/Issue",
+    "Write a query/issue"
+  ]);
+  const orgId = getValueByPossibleKeys(row, [
+    "Org_ID/User ID(optional)",
+    "Org_ID/User ID",
+    "Org_ID / User ID(optional)",
+    "Org_ID / User ID",
+    "Org ID/User ID(optional)",
+    "Org ID / User ID(optional)",
+    "Org_ID",
+    "User ID"
+  ]);
+  const submissionTime = getValueByPossibleKeys(row, [
+    "Submission time",
+    "Submission Time",
+    "submission time"
+  ]);
+
+  return {
+    id: createUniqueId("email"),
+    departmentKey,
+    loadedAtISO: new Date().toISOString(),
+    loadedAtDisplay: formatDisplayDateTime(new Date()),
+    submissionTime: submissionTime || "",
+    sender: email || "N/A",
+    name: [firstName, lastName].filter(Boolean).join(" ").trim() || (firstName || "N/A"),
+    subject: query || "No subject provided",
+    phone: phone || "",
+    orgId: orgId || "",
+    status: "New"
+  };
+}
 
     /* ---------------------------
        SUPPORT TEAM PAGE
@@ -1947,64 +2780,74 @@
       }
     }
 
-    function requestCsvUpload() {
-      const username = prompt("Enter user name to continue:");
-      if (username === null) return;
+function requestCsvUpload(departmentKey = "support") {
+  const password = prompt("Enter password to proceed:");
+  if (password === null) return;
 
-      const password = prompt("Enter password to proceed:");
-      if (password === null) return;
+  if (password !== ADMIN_PASS) {
+    showTemporaryMessage(`${departmentKey}Message`, "Wrong password for loading emails.", "error");
+    return;
+  }
 
-      if (password !== ADMIN_PASS) {
-        showTemporaryMessage("supportMessage", "Wrong password for loading emails.", "error");
+  window.__activeDepartmentForUpload = departmentKey;
+
+  const input = document.getElementById("csvFileInput");
+  input.value = "";
+  setTimeout(() => {
+    input.click();
+  }, 50);
+}
+
+function handleCsvFileSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const departmentKey = window.__activeDepartmentForUpload || "support";
+  const messageId = `${departmentKey}Message`;
+  const storageKey = getDepartmentEmailsStorageKey(departmentKey);
+
+  const fileName = file.name.toLowerCase();
+  if (!fileName.endsWith(".csv")) {
+    showTemporaryMessage(messageId, "Please upload a valid .csv file.", "error");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      const text = e.target.result;
+      const parsed = parseCsv(text);
+      if (!parsed.length) {
+        showTemporaryMessage(messageId, "CSV file is empty or invalid.", "error");
         return;
       }
 
-      document.getElementById("csvFileInput").value = "";
-      document.getElementById("csvFileInput").click();
+      const mappedEmails = parsed.map((row, index) =>
+        mapCsvRowToDepartmentEmail(row, index, departmentKey)
+      );
+
+      const existing = getStoredArray(storageKey);
+      const merged = [...mappedEmails, ...existing];
+      localStorage.setItem(storageKey, JSON.stringify(merged));
+
+      renderDepartmentEmails(departmentKey);
+
+      showTemporaryMessage(
+        messageId,
+        `${mappedEmails.length} email record(s) loaded successfully.`,
+        "success"
+      );
+    } catch (error) {
+      console.error(error);
+      showTemporaryMessage(
+        messageId,
+        "Unable to read this CSV. Please check the column format.",
+        "error"
+      );
     }
-
-    function handleCsvFileSelect(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const fileName = file.name.toLowerCase();
-      if (!fileName.endsWith(".csv")) {
-        showTemporaryMessage("supportMessage", "Please upload a valid .csv file.", "error");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        try {
-          const text = e.target.result;
-          const parsed = parseCsv(text);
-          if (!parsed.length) {
-            showTemporaryMessage("supportMessage", "CSV file is empty or invalid.", "error");
-            return;
-          }
-
-          const mappedEmails = parsed.map((row, index) => mapCsvRowToSupportEmail(row, index));
-          const existing = getStoredArray(STORAGE_KEYS.supportEmails);
-          const merged = [...mappedEmails, ...existing];
-          localStorage.setItem(STORAGE_KEYS.supportEmails, JSON.stringify(merged));
-          initSupportDateRangeDefaults();
-          renderSupportEmails();
-          showTemporaryMessage(
-            "supportMessage",
-            `${mappedEmails.length} email record(s) loaded successfully.`,
-            "success"
-          );
-        } catch (error) {
-          console.error(error);
-          showTemporaryMessage(
-            "supportMessage",
-            "Unable to read this CSV. Please check the column format.",
-            "error"
-          );
-        }
-      };
-      reader.readAsText(file);
-    }
+  };
+  reader.readAsText(file);
+}
 
     function mapCsvRowToSupportEmail(row, index) {
       const firstName = getValueByPossibleKeys(row, [
@@ -2088,7 +2931,7 @@
       if (!filtered.length) {
         body.innerHTML = `
           <tr>
-            <td colspan="9" style="text-align:center;color:#64748b;padding:24px;">
+            <td colspan="10" style="text-align:center;color:#64748b;padding:24px;">
               No email records found for the selected range.
             </td>
           </tr>
@@ -2128,6 +2971,179 @@
         .join("");
     }
 
+function renderDepartmentEmails(departmentKey = "support", showBucketOnly = false) {
+  const body = document.getElementById(`${departmentKey}TableBody`) || document.getElementById("supportTableBody");
+  if (!body) return;
+
+  const storageKey = getDepartmentEmailsStorageKey(departmentKey);
+  let emails = getStoredArray(storageKey);
+
+  if (showBucketOnly) {
+    const user = getCurrentUser();
+    const buckets = getAssignedBuckets();
+    const ids = buckets
+      .filter((b) => user && b.assignedToEmail === user.email && b.departmentKey === departmentKey)
+      .map((b) => b.emailId);
+
+    emails = emails.filter((item) => ids.includes(item.id));
+  }
+
+  if (!emails.length) {
+    body.innerHTML = `
+      <tr>
+        <td colspan="10" style="text-align:center;color:#64748b;padding:24px;">
+          No email records found.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  emails.sort((a, b) => new Date(b.loadedAtISO) - new Date(a.loadedAtISO));
+
+  body.innerHTML = emails.map((item) => {
+    const tagClass = getStatusTagClass(item.status);
+    return `
+      <tr>
+        <td><input type="checkbox" class="email-row-checkbox" data-department="${departmentKey}" value="${item.id}" /></td>
+        <td>
+          <div style="font-weight:700;">${escapeHtml(item.loadedAtDisplay)}</div>
+          ${item.submissionTime ? `<div style="font-size:12px;color:#64748b;">Submitted: ${escapeHtml(item.submissionTime)}</div>` : ""}
+        </td>
+        <td>${escapeHtml(item.sender)}</td>
+        <td>${escapeHtml(item.name)}</td>
+        <td class="subject-cell">${escapeHtml(item.subject)}</td>
+        <td>${escapeHtml(item.phone || "-")}</td>
+        <td>${escapeHtml(item.orgId || "-")}</td>
+        <td><span class="tag ${tagClass}">${escapeHtml(item.status)}</span></td>
+        <td><button class="reply-btn" onclick="replyToDepartmentEmail('${departmentKey}','${item.id}')">↩ Reply</button></td>
+        <td>
+          <select class="status-select" onchange="updateDepartmentEmailStatus('${departmentKey}','${item.id}', this.value)">
+            <option value="New" ${item.status === "New" ? "selected" : ""}>New</option>
+            <option value="Awaiting Reply" ${item.status === "Awaiting Reply" ? "selected" : ""}>Awaiting Reply</option>
+            <option value="Escalation" ${item.status === "Escalation" ? "selected" : ""}>Escalation</option>
+            <option value="Resolved" ${item.status === "Resolved" ? "selected" : ""}>Resolved</option>
+          </select>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function updateDepartmentEmailStatus(departmentKey, id, newStatus) {
+  const storageKey = getDepartmentEmailsStorageKey(departmentKey);
+  const emails = getStoredArray(storageKey);
+  const updated = emails.map((item) =>
+    item.id === id ? { ...item, status: newStatus } : item
+  );
+  localStorage.setItem(storageKey, JSON.stringify(updated));
+  renderDepartmentEmails(departmentKey);
+  showTemporaryMessage(`${departmentKey}Message`, `Status changed to ${newStatus}.`, "success");
+}
+
+function replyToDepartmentEmail(departmentKey, id) {
+  const storageKey = getDepartmentEmailsStorageKey(departmentKey);
+  const emails = getStoredArray(storageKey);
+  const item = emails.find((email) => email.id === id);
+  if (!item) return;
+
+  const subject = `Re: ${item.subject}`;
+  const body = `Hello ${item.name || ""},\n\nThank you for contacting ${getDepartmentLabel(departmentKey)}.\n\nRegards,\nQ-Mates Team`;
+
+  const mailto = `mailto:${encodeURIComponent(item.sender)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+
+  showTemporaryMessage(
+    `${departmentKey}Message`,
+    "Your device mail app has been asked to open.",
+    "helper"
+  );
+}
+
+function toggleSelectAllEmails(departmentKey, checked) {
+  document.querySelectorAll(`.email-row-checkbox[data-department="${departmentKey}"]`).forEach((cb) => {
+    cb.checked = checked;
+  });
+}
+
+function assignSelectedEmails(departmentKey) {
+  const password = prompt("Enter password to assign:");
+  if (password === null) return;
+
+  if (password !== ASSIGN_PASSWORD) {
+    showTemporaryMessage(`${departmentKey}Message`, "Wrong password for assigning emails.", "error");
+    return;
+  }
+
+  const selectedIds = Array.from(
+    document.querySelectorAll(`.email-row-checkbox[data-department="${departmentKey}"]:checked`)
+  ).map((cb) => cb.value);
+
+  if (!selectedIds.length) {
+    showTemporaryMessage(`${departmentKey}Message`, "Select at least one email.", "error");
+    return;
+  }
+
+  const allMembers = getAllMembersAcrossDepartments();
+  if (!allMembers.length) {
+    showTemporaryMessage(`${departmentKey}Message`, "No team members available for assignment.", "error");
+    return;
+  }
+
+  const optionsText = allMembers
+    .map((m, i) => `${i + 1}. ${m.name} (${m.departmentLabel})`)
+    .join("\n");
+
+  const picked = prompt(`Select user number:\n${optionsText}`);
+  if (picked === null) return;
+
+  const member = allMembers[Number(picked) - 1];
+  if (!member) {
+    showTemporaryMessage(`${departmentKey}Message`, "Invalid member selection.", "error");
+    return;
+  }
+
+  const buckets = getAssignedBuckets();
+
+  selectedIds.forEach((emailId) => {
+    const existingIndex = buckets.findIndex(
+      (b) => b.emailId === emailId && b.departmentKey === departmentKey
+    );
+
+    const payload = {
+      id: createUniqueId("bucket"),
+      departmentKey,
+      emailId,
+      assignedToMemberId: member.id || "",
+      assignedToName: member.name,
+      assignedToEmail: member.email || member.employeeId || member.name
+    };
+
+    if (existingIndex >= 0) {
+      buckets[existingIndex] = { ...buckets[existingIndex], ...payload };
+    } else {
+      buckets.push(payload);
+    }
+  });
+
+  saveAssignedBuckets(buckets);
+  showTemporaryMessage(`${departmentKey}Message`, `Assigned ${selectedIds.length} email(s) to ${member.name}.`, "success");
+}
+
+function openMyBucket(departmentKey) {
+  if (!guardDepartmentAccess(departmentKey)) return;
+  renderDepartmentEmails(departmentKey, true);
+  showTemporaryMessage(`${departmentKey}Message`, "Showing My Bucket emails.", "success");
+}
+
+function refreshDepartmentPage(departmentKey) {
+  renderMembers(departmentKey);
+  renderDepartmentEmails(departmentKey);
+  showTemporaryMessage(`${departmentKey}Message`, `${getDepartmentLabel(departmentKey)} refreshed.`, "success");
+}
+
+
+
     function getStatusTagClass(status) {
       switch (status) {
         case "Awaiting Reply":
@@ -2148,7 +3164,7 @@
         item.id === id ? { ...item, status: newStatus } : item
       );
       localStorage.setItem(STORAGE_KEYS.supportEmails, JSON.stringify(updated));
-      renderSupportEmails();
+      renderDepartmentEmails('support');
       showTemporaryMessage("supportMessage", `Status changed to ${newStatus}.`, "success");
     }
 
@@ -2169,52 +3185,57 @@
       );
     }
 
-    function clearLoadedEmails() {
-      const confirmed = confirm("Do you want to clear all loaded support emails?");
-      if (!confirmed) return;
-      localStorage.removeItem(STORAGE_KEYS.supportEmails);
-      document.getElementById("supportDateFrom").value = "";
-      document.getElementById("supportDateTo").value = "";
-      renderSupportEmails();
-      showTemporaryMessage("supportMessage", "All loaded emails cleared.", "success");
-    }
+function clearLoadedEmails(departmentKey = "support") {
+  const confirmed = confirm(`Do you want to clear all loaded ${getDepartmentLabel(departmentKey)} emails?`);
+  if (!confirmed) return;
+
+  const storageKey = getDepartmentEmailsStorageKey(departmentKey);
+  localStorage.removeItem(storageKey);
+
+  const fromInput = document.getElementById(`${departmentKey}DateFrom`);
+  const toInput = document.getElementById(`${departmentKey}DateTo`);
+
+  if (fromInput) fromInput.value = "";
+  if (toInput) toInput.value = "";
+
+  renderDepartmentEmails(departmentKey);
+  showTemporaryMessage(`${departmentKey}Message`, "All loaded emails cleared.", "success");
+}
 
     /* ---------------------------
        SUPPORT MEMBERS
     --------------------------- */
-    function renderMembers() {
-      const container = document.getElementById("membersList");
-      if (!container) return;
+function renderMembers(departmentKey = "support") {
+  const container = document.getElementById(`${departmentKey}MembersList`) || document.getElementById("membersList");
+  if (!container) return;
 
-      const members = getStoredArray(STORAGE_KEYS.supportMembers).sort(sortMembersByDesignation);
+  const members = getStoredArray(getDepartmentMembersStorageKey(departmentKey)).sort(sortMembersByDesignation);
 
-      if (!members.length) {
-        container.innerHTML = `
-          <div class="helper-text">No team members added yet.</div>
-        `;
-        return;
-      }
+  if (!members.length) {
+    container.innerHTML = `<div class="helper-text">No team members added yet.</div>`;
+    return;
+  }
 
-      container.innerHTML = members
-        .map((member) => {
-          const initials = getInitials(member.name || "TM");
-          const photoHtml = member.photo
-            ? `<img class="member-photo" src="${member.photo}" alt="${escapeHtml(member.name)}" />`
-            : `<div class="member-photo fallback">${escapeHtml(initials)}</div>`;
+  container.innerHTML = members
+    .map((member) => {
+      const initials = getInitials(member.name || "TM");
+      const photoHtml = member.photo
+        ? `<img class="member-photo" src="${member.photo}" alt="${escapeHtml(member.name)}" />`
+        : `<div class="member-photo fallback">${escapeHtml(initials)}</div>`;
 
-          return `
-            <div class="member-item">
-              ${photoHtml}
-              <div class="member-meta">
-                <div class="member-name">${escapeHtml(member.name)}</div>
-                <div class="member-designation">${escapeHtml(member.designation)}</div>
-                <div class="member-empid">Employee ID: ${escapeHtml(member.employeeId || "-")}</div>
-              </div>
-            </div>
-          `;
-        })
-        .join("");
-    }
+      return `
+        <div class="member-item">
+          ${photoHtml}
+          <div class="member-meta">
+            <div class="member-name">${escapeHtml(member.name)}</div>
+            <div class="member-designation">${escapeHtml(member.designation)}</div>
+            <div class="member-empid">Employee ID: ${escapeHtml(member.employeeId || "-")}</div>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
 
     function sortMembersByDesignation(a, b) {
       const aOrder = DESIGNATION_ORDER[a.designation] || 99;
@@ -2223,30 +3244,33 @@
       return (a.name || "").localeCompare(b.name || "");
     }
 
-    function requestAddMember() {
-      const password = prompt("Enter password to add a member:");
-      if (password === null) return;
+function requestAddMember(departmentKey = "support") {
+  const password = prompt("Enter password to add a member:");
+  if (password === null) return;
 
-      if (password !== ADMIN_PASS) {
-        showTemporaryMessage("supportMessage", "Wrong password for adding a member.", "error");
-        return;
-      }
+  if (password !== ADMIN_PASS) {
+    showTemporaryMessage(`${departmentKey}Message`, "Wrong password for adding a member.", "error");
+    return;
+  }
 
-      openMemberModal();
-    }
+  window.__activeDepartmentForMember = departmentKey;
+  openMemberModal(departmentKey);
+}
 
-    function openMemberModal() {
-      document.getElementById("memberModal").classList.add("active");
-      document.getElementById("memberName").value = "";
-      document.getElementById("memberDesignation").value = "";
-      document.getElementById("memberEmployeeId").value = "";
-      document.getElementById("memberPhotoInput").value = "";
-      document.getElementById("memberPhotoName").textContent = "No file selected";
-      document.getElementById("memberPhotoPreview").classList.add("hidden");
-      document.getElementById("memberPhotoPreview").src = "";
-      document.getElementById("memberModalMessage").textContent = "";
-      memberPhotoDataUrl = "";
-    }
+function openMemberModal(departmentKey = "support") {
+  document.getElementById("memberModal").classList.add("active");
+  document.getElementById("memberName").value = "";
+  document.getElementById("memberDesignation").value = "";
+  document.getElementById("memberEmployeeId").value = "";
+  document.getElementById("memberPhotoInput").value = "";
+  document.getElementById("memberPhotoName").textContent = "No file selected";
+  document.getElementById("memberPhotoPreview").classList.add("hidden");
+  document.getElementById("memberPhotoPreview").src = "";
+  document.getElementById("memberModalMessage").textContent = "";
+  document.querySelector("#memberModal .modal-header").textContent =
+    `Add ${getDepartmentLabel(departmentKey)} Member`;
+  memberPhotoDataUrl = "";
+}
 
     function closeMemberModal() {
       document.getElementById("memberModal").classList.remove("active");
@@ -2267,33 +3291,147 @@
       reader.readAsDataURL(file);
     }
 
-    function submitNewMember() {
-      const name = document.getElementById("memberName").value.trim();
-      const designation = document.getElementById("memberDesignation").value.trim();
-      const employeeId = document.getElementById("memberEmployeeId").value.trim();
+function submitNewMember() {
+  const departmentKey = window.__activeDepartmentForMember || "support";
+  const name = document.getElementById("memberName").value.trim();
+  const designation = document.getElementById("memberDesignation").value.trim();
+  const employeeId = document.getElementById("memberEmployeeId").value.trim();
 
-      if (!name || !designation || !employeeId || !memberPhotoDataUrl) {
-        document.getElementById("memberModalMessage").textContent =
-          "Please fill all fields and upload a photo.";
-        document.getElementById("memberModalMessage").className = "error-text";
-        return;
-      }
+  if (!name || !designation || !employeeId || !memberPhotoDataUrl) {
+    document.getElementById("memberModalMessage").textContent =
+      "Please fill all fields and upload a photo.";
+    document.getElementById("memberModalMessage").className = "error-text";
+    return;
+  }
 
-      const members = getStoredArray(STORAGE_KEYS.supportMembers);
-      members.push({
-        id: createUniqueId("member"),
-        name,
-        designation,
-        employeeId,
-        photo: memberPhotoDataUrl
-      });
+  const storageKey = getDepartmentMembersStorageKey(departmentKey);
+  const members = getStoredArray(storageKey);
 
-      localStorage.setItem(STORAGE_KEYS.supportMembers, JSON.stringify(members));
-      renderMembers();
-      closeMemberModal();
-      showTemporaryMessage("supportMessage", "Team member added successfully.", "success");
+  members.push({
+    id: createUniqueId("member"),
+    name,
+    designation,
+    employeeId,
+    photo: memberPhotoDataUrl
+  });
+
+  localStorage.setItem(storageKey, JSON.stringify(members));
+  renderMembers(departmentKey);
+  closeMemberModal();
+  showTemporaryMessage(`${departmentKey}Message`, "Team member added successfully.", "success");
+}
+
+
+
+function renderOrganizationChart() {
+  const data = getStoredArray(STORAGE_KEYS.organizationChart);
+
+  ["founder", "md", "sales_head", "support_head", "hr_head", "it_head", "accounts_head"].forEach((key) => {
+    const item = data.find((x) => x.key === key);
+    if (!item) return;
+
+    const nameEl = document.getElementById(`org-${key}-name`);
+    const designationEl = document.getElementById(`org-${key}-designation`);
+    const departmentEl = document.getElementById(`org-${key}-department`);
+    const photoEl = document.getElementById(`org-${key}-photo`);
+
+    if (nameEl) nameEl.textContent = item.name || "Not set";
+    if (designationEl) designationEl.textContent = item.designation || "Not set";
+    if (departmentEl) departmentEl.textContent = `Department: ${item.department || "-"}`;
+
+    if (photoEl && item.photo) {
+      photoEl.outerHTML = `<img class="member-photo" id="org-${key}-photo" src="${item.photo}" alt="${escapeHtml(item.name || key)}" />`;
     }
+  });
+}
 
+function editOrgNode(nodeKey) {
+  const password = prompt("Enter password to proceed:");
+  if (password === null) return;
+
+  if (password !== ADMIN_PASS) {
+    alert("Access blocked");
+    return;
+  }
+
+  window.__orgNodeEditingKey = nodeKey;
+
+  const data = getStoredArray(STORAGE_KEYS.organizationChart);
+  const existing = data.find((x) => x.key === nodeKey) || {};
+
+  document.getElementById("orgNodeName").value = existing.name || "";
+  document.getElementById("orgNodeDesignation").value = existing.designation || "";
+  document.getElementById("orgNodeDepartment").value = existing.department || "";
+
+  const preview = document.getElementById("orgNodePhotoPreview");
+  if (existing.photo) {
+    preview.src = existing.photo;
+    preview.classList.remove("hidden");
+    document.getElementById("orgNodePhotoName").textContent = "Current photo loaded";
+  } else {
+    preview.src = "";
+    preview.classList.add("hidden");
+    document.getElementById("orgNodePhotoName").textContent = "No file selected";
+  }
+
+  orgNodePhotoDataUrl = existing.photo || "";
+  document.getElementById("orgNodeModalMessage").textContent = "";
+  document.getElementById("orgNodeModal").classList.add("active");
+}
+
+function closeOrgNodeModal() {
+  document.getElementById("orgNodeModal").classList.remove("active");
+}
+
+function saveOrgNode() {
+  const key = window.__orgNodeEditingKey;
+  if (!key) return;
+
+  const name = document.getElementById("orgNodeName").value.trim();
+  const designation = document.getElementById("orgNodeDesignation").value.trim();
+  const department = document.getElementById("orgNodeDepartment").value.trim();
+
+  if (!name || !designation || !department) {
+    showTemporaryMessage("orgNodeModalMessage", "Please fill all fields.", "error");
+    return;
+  }
+
+  const data = getStoredArray(STORAGE_KEYS.organizationChart);
+  const idx = data.findIndex((x) => x.key === key);
+
+  const payload = {
+    key,
+    name,
+    designation,
+    department,
+    photo: orgNodePhotoDataUrl || ""
+  };
+
+  if (idx >= 0) {
+    data[idx] = payload;
+  } else {
+    data.push(payload);
+  }
+
+  localStorage.setItem(STORAGE_KEYS.organizationChart, JSON.stringify(data));
+  closeOrgNodeModal();
+  renderOrganizationChart();
+}
+
+function handleOrgNodePhotoSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    orgNodePhotoDataUrl = e.target.result;
+    const preview = document.getElementById("orgNodePhotoPreview");
+    preview.src = orgNodePhotoDataUrl;
+    preview.classList.remove("hidden");
+    document.getElementById("orgNodePhotoName").textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+}
     /* ---------------------------
        FAQ ORIGINAL FEATURES
     --------------------------- */
